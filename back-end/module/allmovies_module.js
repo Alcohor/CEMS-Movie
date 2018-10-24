@@ -10,6 +10,10 @@ var AllMovies = mongoose.model('allmovies', new mongoose.Schema({
     time:String,
     duringTime:String,
     language:String,
+    posterPic:String,
+    actor:String,
+    createTime:String,
+
 }));
 
 const _get = ()=>{//获得所有电影数据

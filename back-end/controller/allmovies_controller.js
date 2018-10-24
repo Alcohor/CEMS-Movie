@@ -19,7 +19,7 @@ const save = async(req,res)=>{
     res.set('content-type', 'application/json; charset=utf8')
     console.log(req,1)
     let _data = await allmovies_module.save(req.body);//获取所有电影数据的方法
-    let successFlag = isSuccess(_data,res,"allmovies")
+    let successFlag = isSuccess(_data,res,"allmovies")//成功返回true，失败返回false
     if(successFlag){
         res.render('allmovies',{
             status:200,
