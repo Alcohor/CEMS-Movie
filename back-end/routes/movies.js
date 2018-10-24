@@ -6,6 +6,7 @@ router.get('/get',movies.get)
 router.post('/save',movies.save)
 router.get('/getbyid',movies.getById)
 router.get('/deletebyid',movies.delById)
+router.get('/getbyname',movies.getByName)
 
 
 module.exports = router
