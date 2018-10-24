@@ -37,6 +37,12 @@ module.exports = {
                     { loader: 'sass-loader' }                    
                 ]
             },
+            {
+                test: /\.html$/,
+                use: [ // loader从后向前使用
+                    { loader: 'string-loader' }                
+                ]
+            },
             {//图片
                 test: /\.(png|jpg|gif)$/,
                 use: [
