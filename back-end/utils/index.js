@@ -1,4 +1,7 @@
-const isSuccess=(data,res,template)=>{
+
+const none = ()=>{}
+
+const dataHandler = (data,res,template)=>{
     if(!data){
         res.render(template,{
             code:500,
@@ -10,5 +13,5 @@ const isSuccess=(data,res,template)=>{
 }
 
 module.exports = {
-    isSuccess
+    dataHandler
 }
