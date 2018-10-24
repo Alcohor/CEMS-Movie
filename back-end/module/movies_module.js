@@ -13,7 +13,7 @@ var Movies = mongoose.model('movies', new mongoose.Schema({
     language: String,//语言
     posterPic: String,//海报图片
     actor: Array,//演员
-    intro: String,
+    intro: String,//简介
     createTime: String,//发布时间（毫秒）
     createTimeFormat: String,//（创建时间）
 
