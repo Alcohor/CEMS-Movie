@@ -1,13 +1,13 @@
 
 import SMERouter from 'sme-router'
 
-const home_template = require('../view/home.html');
-const notFound_template = require('../view/404.html');
+import home_template from '../view/home.html';
+import notFound_template from '../view/404.html';
 import movies_info_controller from'../controller/movies_info_controller';
 import bus from '../util/bus'
 
 //controller控制器
-const cinema_controller = require('../controllers/cinema_controller');
+import cinema_controller from '../controller/cinema_controller';
 
 var router = null;
 
@@ -24,7 +24,8 @@ const _init = () =>{
     router.route('/home',(req,res,next) =>{
         res.render(home_template)
     })
-    router.route('/cinema',cinema_controller.cinema)
+    router.route('/cinema-list',cinema_controller.cinema)
+    router.route('/cinema-save',cinema_controller.cinemaSave)
     router.route('/notFound',(req,res,next) =>{
         res.render(notFound_template)
         _navLink('.not-found a[to]')
