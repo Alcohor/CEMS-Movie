@@ -3,6 +3,8 @@ import SMERouter from 'sme-router'
 
 const home_template = require('../view/home.html');
 const notFound_template = require('../view/404.html');
+import movies_info_controller from'../controller/movies_info_controller';
+import bus from '../util/bus'
 
 //controller控制器
 const cinema_controller = require('../controllers/cinema_controller');
@@ -10,7 +12,7 @@ const cinema_controller = require('../controllers/cinema_controller');
 var router = null;
 
 //启动路由
-const _init = () =>{
+const _init = () =>{    
 
     router = new SMERouter('router-view')
 
@@ -62,6 +64,8 @@ const _navLink = () =>{
              .siblings()
              .removeClass('active')
 }
+
+bus.on('go', (path, body = {}) =>  router.go(path, body) )
 
 
 
