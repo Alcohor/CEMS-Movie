@@ -25,7 +25,13 @@ module.exports = {
         // contentBase: path.join(__dirname, "../dev"),
         contentBase: [path.join(__dirname, "../dev")],
         compress: true,
-        port: 9000
+        port: 9000,
+        proxy: { // 代理api请求到 api server
+            '/api': {
+                target: 'http://localhost:3000',
+                changeOrigin: true
+            }
+        }
     },
     module : {// 可以设置模块的规则来为这些模块使用loader
         rules : [

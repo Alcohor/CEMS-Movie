@@ -5,11 +5,13 @@ import SMERouter from 'sme-router'
 const cinemaList_template = require('../view/cinemaList.html');
 const home_template = require('../view/home.html');
 const notFound_template = require('../view/404.html');
+import movies_info_controller from'../controller/movies_info_controller';
+import bus from '../util/bus'
 
 var router = null;
 
 //启动路由
-const _init = () =>{
+const _init = () =>{    
 
     router = new SMERouter('router-view')
 
@@ -24,6 +26,9 @@ const _init = () =>{
     router.route('/cinema',(req,res,next) =>{
         res.render(cinemaList_template)
     })
+    router.route('/movies',movies_info_controller.list)
+    router.route('/movies-add',movies_info_controller.showAddMovie)
+
     router.route('/notFound',(req,res,next) =>{
         res.render(notFound_template)
         _navLink('.not-found a[to]')
@@ -64,6 +69,8 @@ const _navLink = () =>{
              .siblings()
              .removeClass('active')
 }
+
+bus.on('go', (path, body = {}) =>  router.go(path, body) )
 
 
 
