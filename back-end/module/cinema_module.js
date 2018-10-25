@@ -1,4 +1,5 @@
 
+const mongoose = require('../utils/mongoose')
 
 const list = () => {
     return [
@@ -80,6 +81,34 @@ const list = () => {
     ]
 }  
 
+//添加影院数据
+ const save = (body) =>{
+    var Cinema = mongoose.model('cinema', new mongoose.Schema({
+        name : String,//影院名称
+        city : String,//影院地点
+        boxOffice : String,//票房
+        createTime : String,//发布时间
+       
+    }));
+
+    new Cinema({
+        ...body,
+        createTime : Date.new(),
+        
+    }).save()
+        .then((result) => {
+            console.log('result:', result)
+        })
+        .catch(() =>{
+            console.log('err:', err)
+        })
+
+
+
+
+ }
+
 module.exports = {
-    list
+    list,
+    save
 }
