@@ -17,6 +17,7 @@ const add = async(req,res,next)=>{
     })
     res.render(html)
 }
+
 const showAddMovie = (req,res,next)=>{
     console.log(1)
     let html = template.render(movies_add_template ,{
@@ -35,7 +36,7 @@ const bindListEvent = () => {
         let id = $(this).parents('tr').data('id')
         bus.emit('go','/position-update', { id })
     })
-    // $('movies.remove').on('click', handleRemovePosition)
+    $('movies.remove').on('click', handleRemoveMovies)
 }
 
 const bindSaveEvent = () => {
@@ -45,6 +46,14 @@ const bindSaveEvent = () => {
     })
     $('#save-form').submit(handleSaveSubmit)
 }
+ 
+const handleRemoveMovies = ()=>{
+    
+}
+
+
+
+
 
 let _isLoading = false;
 
