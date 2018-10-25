@@ -9,19 +9,20 @@ const getAllMoviesInfo=()=>{
         });
     })
 }
-const addMovieInfo=()=>{
+const addMovieInfo=(data)=>{
     return new Promise((resolve)=>{
-        $.ajax({
+        $('#save-form').ajaxSubmit({
             url: '/api/movies/save',
-            type:'post',
-            success: function (results) {
+            type: 'POST',
+            success: (results) => {
                 resolve(results)
             }
-        });
+        })
     })
 }
 
 export default  {
     getAllMoviesInfo,
+    addMovieInfo
 
 }

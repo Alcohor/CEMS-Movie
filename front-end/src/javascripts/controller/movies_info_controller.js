@@ -22,6 +22,7 @@ const showAddMovie = (req,res,next)=>{
     let html = template.render(movies_add_template ,{
     })
     res.render(html)
+    bindSaveEvent()
 }
 
 const bindListEvent = () => {
@@ -36,6 +37,27 @@ const bindListEvent = () => {
     })
     // $('movies.remove').on('click', handleRemovePosition)
 }
+
+const bindSaveEvent = () => {
+    // 返回按钮逻辑
+    $('#back').on('click', function () {
+        bus.emit('go', '/movies')
+    })
+    $('#save-form').submit(handleSaveSubmit)
+}
+
+let _isLoading = false;
+
+const handleSaveSubmit = async function (e){
+    e.preventDefault()
+    if(_isLoading) return false;
+    console.log("save")
+    _isLoading =true
+    let result = await movies_model.addMovieInfo()
+    _isLoading = false;
+    
+}
+
 
 export default{
     list,
