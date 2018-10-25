@@ -1,7 +1,7 @@
 <div class="box cinema-list">
     <div class="box-header with-border">
       <h3 class="box-title">
-        <button id="addbtn" class="btn btn-block btn-success"><span class="fa fa-plus-circle"></span> 添加</button>
+        <button to="/position-list" id="addbtn" class="btn btn-block btn-success"><span class="fa fa-plus-circle"></span> 添加</button>
       </h3>
       <div class="box-tools">
         <div class="input-group input-group-sm" style="width: 150px;">
@@ -26,13 +26,14 @@
           <th style="width: 140px">操作</th>
         </tr>
         <tr>
-          <td>1</td>
-          <td><img width="50" height="50" src="http://www.lgstatic.com/image1/M00/00/61/CgYXBlTUXVCAeQzFAACq8Fs1-R0294.png"
+          {{each data}}
+          <td>{{$index+1}}</td>
+          <td><img width="50" height="50" src="http://www.lgstatic.com/{{$value.companyLogo}}"
               alt=""></td>
-          <td>恒大影城</td>
-          <td>广州</td>
-          <td>2018-10-21 12:10</td>
-          <td>15K-25K</td>
+          <td>{{ $value.companyName }}</td>
+          <td>{{ $value.city }}</td>
+          <td>{{ $value.createTime }}</td>
+          <td>{{ $value.salary }}</td>
           <td>
             <button class="btn btn-sm btn-primary pos-update" posid="" pageno="" keywords=""><span class="fa fa-edit"></span>
               修改</button>
@@ -40,6 +41,7 @@
               filename=""><span class="fa fa-remove"></span> 删除</button>
           </td>
         </tr>
+        {{/each}}
         <!-- <tr>
           <td colspan="8"> 暂无数据. </td>
         </tr> -->
