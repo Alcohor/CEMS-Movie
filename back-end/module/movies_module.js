@@ -16,7 +16,7 @@ var Movies = mongoose.model('movies', new mongoose.Schema({
     intro: String,//简介
     createTime: String,//发布时间（毫秒）
     createTimeFormat: String,//（创建时间）
-
+    
 }));
 
 const _get = () => {//获得所有电影数据
