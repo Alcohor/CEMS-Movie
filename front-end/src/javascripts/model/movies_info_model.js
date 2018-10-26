@@ -56,10 +56,25 @@ const deleteMovieInfo = (data) => { //删除电影信息
 
 }
 
+const updataMovieInfo = (data) => {
+    return new Promise((resolve) => {
+        $('#updata-form').ajaxSubmit({
+            url: '/api/movies/updatamovie',
+            type: 'POST',
+            success: (results) => {
+                resolve(results)
+            }
+        })
+    })
+}
+
+
+
 export default {
     getAllMoviesInfo,
     addMovieInfo,
     deleteMovieInfo,
     searchMoviesByName,
-    searchMoviesById
+    searchMoviesById,
+    updataMovieInfo
 }

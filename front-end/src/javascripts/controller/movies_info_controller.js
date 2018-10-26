@@ -4,6 +4,7 @@ import movies_add_template from '../view/movies_add.html'
 import note_found_template from '../view/movie_search_404.html'
 import movies_updata_template from '../view/movies_updata.html'
 import bus from '../util/bus'
+import getPath from '../util/getPath'
 
 //列表渲染控制器
 const list = async (req, res, next) => {
@@ -30,19 +31,6 @@ const showAddMovie = (req, res, next) => {
     bindSaveEvent()  
 }
 
-
-
-
-// const showUpdataMovie = async function(req, res, next){
-//     let id = $(this).parents("tr").data("id");
-//     console.log(id)
-//     let data = await movies_model.searchMoviesById(id)
-//     let html = template.render(movies_updata_template, {data:data.data})
-//     res.render(html)
-//     bindSaveEvent()  
-// }
-
-
 const update = async (req, res) => {
     let { id } = req.body// 要更新的数据的id
     // 获取id对应的数据进行渲染
@@ -50,7 +38,7 @@ const update = async (req, res) => {
         data: (await movies_model.searchMoviesById({ id })).data // 获取到列表数据
     })
     res.render(html)
-    bindUpdateEvent()
+    bindUpdataEvent()
 }
 
 
@@ -58,12 +46,11 @@ const update = async (req, res) => {
 const bindListEvent = () => {
     // 添加按钮点击跳转到添加路由
     $('#addbtn').on('click', function () {
-        console.log(bus)
         bus.emit('go', '/movies-add')
     })
     $('.movies-update').on('click', function () {
-        let id = $(this).parents('tr').data('id')
-        bus.emit('go', '/movies-update', {id})
+        let _id = $(this).parents('tr').data('id')
+        bus.emit('go', '/movies-update', {id:_id})
     })
     $('.movies-remove').on('click', handleRemoveMovies)
 }
@@ -74,7 +61,35 @@ const bindSaveEvent = () => {
     $('#back').on('click', function () {
         bus.emit('go', '/movies')
     })
+    $('#posterPic').on('change',function(){
+        var oFReader = new FileReader();
+			var file =  $(this).get(0).files[0];
+			oFReader.readAsDataURL(file);
+			oFReader.onloadend = function(oFRevent){
+				var _src = oFRevent.target.result;
+				$('#posterPicPreView').css("background-image",`url(${_src})`)
+		    }
+    })
     $('#save-form').submit(handleSaveSubmit)
+}
+
+//绑定修改页面提交事件
+const bindUpdataEvent = () => {
+    // 返回按钮逻辑
+    $('#back').on('click', function () {
+        bus.emit('go', '/movies')
+    })
+   
+    $('#posterPic').on('change',function(){
+        var oFReader = new FileReader();
+			var file =  $(this).get(0).files[0];
+			oFReader.readAsDataURL(file);
+			oFReader.onloadend = function(oFRevent){
+				var _src = oFRevent.target.result;
+				$('#posterPicPreView').css("background-image",`url(${_src})`)
+		    }
+    })
+    $('#updata-form').submit(handleUpdataSubmit)
 }
 
 //绑定搜索点击事件
@@ -143,8 +158,23 @@ const handleSaveSubmit = async function (e) {
 }
 
 
+
+const handleUpdataSubmit = async function (e) {
+    e.preventDefault()
+    if (_isLoading) return false;
+    console.log("updata")
+    _isLoading = true
+    let result = await movies_model.updataMovieInfo()
+    _isLoading = false;
+
+}
+
+
 export default {
     list,
     add,
-    showAddMovie,
+    showAddMovie, 
+    update,
+    handleUpdataSubmit  
+    
 }
