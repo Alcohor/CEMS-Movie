@@ -1,13 +1,10 @@
-function getPath(file){    
-    var url=null     
-    if(window.createObjectURL!=undefined){ // basic    
-        url=window.createObjectURL(file)    
-    }else if(window.URL!=undefined){ // mozilla(firefox)    
-        url=window.URL.createObjectURL(file)    
-    }else if(window.webkitURL!=undefined){ // webkit or chrome    
-        url=window.webkitURL.createObjectURL(file)    
-    }    
-    return url  ;  
+function getPath($obj) {
+    const oFReader = new FileReader();
+    const file = $obj.get(0).files[0];
+    oFReader.readAsDataURL(file);
+    return oFReader.onloadend = function (oFRevent) {
+        return _src = oFRevent.target.result;
+    }
 }
 
 export default getPath
