@@ -53,7 +53,7 @@ const _init = () =>{
 const _navLink = () =>{
     let navname = $('.sidebar-menu li[to]');
     navname.on("click",function(){
-        //获取to的属性值
+        //获取to的属性值 
         let _path = $(this).attr('to');
         router.go(_path);
     })
