@@ -12,7 +12,7 @@ var Cinema = mongoose.model('cinemas', new mongoose.Schema({
 }));
 
 const list = () => {
-    return Position.find({}).
+    return Cinema.find({}).
     then((results) => {
         return results
     }).
