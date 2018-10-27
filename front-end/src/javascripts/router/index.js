@@ -1,12 +1,13 @@
 
 import SMERouter from 'sme-router'
 
-
-const cinemaList_template = require('../view/cinemaList.html');
-const home_template = require('../view/home.html');
-const notFound_template = require('../view/404.html');
+import home_template from '../view/home.html';
+import notFound_template from '../view/404.html';
 import movies_info_controller from'../controller/movies_info_controller';
 import bus from '../util/bus'
+
+//controller控制器
+import cinema_controller from '../controller/cinema_controller';
 
 var router = null;
 
@@ -23,12 +24,11 @@ const _init = () =>{
     router.route('/home',(req,res,next) =>{
         res.render(home_template)
     })
-    router.route('/cinema',(req,res,next) =>{
-        res.render(cinemaList_template)
-    })
+    router.route('/cinema-list',cinema_controller.cinema)
+    router.route('/cinema-save',cinema_controller.cinemaSave)
     router.route('/movies',movies_info_controller.list)
     router.route('/movies-add',movies_info_controller.showAddMovie)
-
+    router.route('/movies-update',movies_info_controller.update)
     router.route('/notFound',(req,res,next) =>{
         res.render(notFound_template)
         _navLink('.not-found a[to]')
@@ -38,10 +38,9 @@ const _init = () =>{
     router.route('*', (req, res, next) => {
         if ( req.url === '' ) { // 刚进入项目，没有hash值，重定向到home
             res.redirect('/home')
+        }else { // 如果路径匹配不到，导向404
+             res.redirect('/notFound')
         }
-        // } else { // 如果路径匹配不到，导向404
-        //     res.redirect('/notFound')
-        // }
     })
 
 
