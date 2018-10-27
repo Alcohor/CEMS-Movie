@@ -1,5 +1,5 @@
 
-
+//列表数据
 const list = () => {
     return $.ajax({
         url: '/api/cinema/list',
@@ -9,6 +9,20 @@ const list = () => {
     })
 }
 
+//表单提交
+const save = () => {
+    return $.ajax({
+        url: '/api/cinema/save',
+        type : 'post',
+        success:(results) => {
+           return results
+        }
+    })
+}
+
+
+
 export default {
-    list
+    list,
+    save
 }
