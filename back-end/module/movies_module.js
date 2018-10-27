@@ -5,16 +5,16 @@ const PATH = require('path') // 时间格式化
 
 var Movies = mongoose.model('movies', new mongoose.Schema({
     movieName: String,//电影名称
-    director: Array,//导演
+    director: String,//导演
     company: String,//发行公司
-    type: Array,//类型
+    type: String,//类型
     country: String,//国家
     time: String,//上映时间
-    year: String,
+    year: String,//年份
     duringTime: String,//时长
     language: String,//语言
     posterPic: String,//海报图片
-    actor: Array,//演员
+    actor: String,//演员
     intro: String,//简介
     createTime: String,//发布时间（毫秒）
     createTimeFormat: String,//（创建时间）

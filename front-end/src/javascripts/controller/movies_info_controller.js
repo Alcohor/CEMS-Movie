@@ -3,8 +3,9 @@ import movies_info_template from '../view/movies_info.html'
 import movies_add_template from '../view/movies_add.html'
 import note_found_template from '../view/movie_search_404.html'
 import movies_updata_template from '../view/movies_updata.html'
-import bus from '../util/bus'
-import getPath from '../util/getPath'
+import { getPath,bus } from '../util'
+let _isLoading = false;
+//开关
 
 //列表渲染控制器
 const list = async (req, res, next) => {
@@ -25,17 +26,21 @@ const add = async (req, res, next) => {
 
 //显示添加电影页面
 const showAddMovie = (req, res, next) => {
-    
+
     let html = template.render(movies_add_template, {})
     res.render(html)
-    bindSaveEvent()  
+    bindSaveEvent()
 }
 
 const update = async (req, res) => {
-    let { id } = req.body// 要更新的数据的id
+    let {
+        id
+    } = req.body // 要更新的数据的id
     // 获取id对应的数据进行渲染
     let html = template.render(movies_updata_template, {
-        data: (await movies_model.searchMoviesById({ id })).data // 获取到列表数据
+        data: (await movies_model.searchMoviesById({
+            id
+        })).data // 获取到列表数据
     })
     res.render(html)
     bindUpdataEvent()
@@ -50,7 +55,9 @@ const bindListEvent = () => {
     })
     $('.movies-update').on('click', function () {
         let _id = $(this).parents('tr').data('id')
-        bus.emit('go', '/movies-update', {id:_id})
+        bus.emit('go', '/movies-update', {
+            id: _id
+        })
     })
     $('.movies-remove').on('click', handleRemoveMovies)
 }
@@ -61,91 +68,19 @@ const bindSaveEvent = () => {
     $('#back').on('click', function () {
         bus.emit('go', '/movies')
     })
-    $('#posterPic').on('change',function(){
+    $('#posterPic').on('change', function () {
         var oFReader = new FileReader();
-			var file =  $(this).get(0).files[0];
-			oFReader.readAsDataURL(file);
-			oFReader.onloadend = function(oFRevent){
-				var _src = oFRevent.target.result;
-				$('#posterPicPreView').css("background-image",`url(${_src})`)
-		    }
+        var file = $(this).get(0).files[0];
+        oFReader.readAsDataURL(file);
+        oFReader.onloadend = function (oFRevent) {
+            var _src = oFRevent.target.result;
+            $('#posterPicPreView').css("background-image", `url(${_src})`)
+        }
     })
     $('#save-form').submit(handleSaveSubmit)
 }
 
-//绑定修改页面提交事件
-const bindUpdataEvent = () => {
-    // 返回按钮逻辑
-    $('#back').on('click', function () {
-        bus.emit('go', '/movies')
-    })
-   
-    $('#posterPic').on('change',function(){
-        var oFReader = new FileReader();
-			var file =  $(this).get(0).files[0];
-			oFReader.readAsDataURL(file);
-			oFReader.onloadend = function(oFRevent){
-				var _src = oFRevent.target.result;
-				$('#posterPicPreView').css("background-image",`url(${_src})`)
-		    }
-    })
-    $('#updata-form').submit(handleUpdataSubmit)
-}
 
-//绑定搜索点击事件
-const bindSearchEvent = () => {
-    // 返回按钮逻辑
-    $('#searchBtn').on('click', handleSearchMovies)
-   
-}
-
-// const bindUpdataEvent = ()=>{
-//     movies-update
-// }
-
-
-//处理删除操作
-const handleRemoveMovies = async function () {
-
-    let _id = $(this).parents("tr").data("id");
-    let info = await movies_model.deleteMovieInfo({
-        id: _id
-    });
-    $(this).parents("tr").hide(300).remove()
-
-}
-
-
-//处理搜索
-const handleSearchMovies = async function () {
-
-    let _name = $('#keywords').val();
-    if (_name === ''){
-        bus.emit('go', '/movies/#/' +new Date().getTime())
-        return false
-    }
-    let searchData = await movies_model.searchMoviesByName({
-        movieName : _name
-    });
-    console.log(searchData)
-    let html = ''
-    if(JSON.stringify(searchData.data)=='[]'||searchData.status==='500'){
-        console.log(500)
-        html = template.render(note_found_template,{})
-        $('#disWrap').html(html)
-    }else{
-
-        html = template.render(movies_info_template,{data:searchData.data})
-        $('#router-view').html(html)
-        bindListEvent()
-        bindSearchEvent()
-        $('#keywords').val(_name);
-    }
-
-}
-
-//开关
-let _isLoading = false;
 //处理点击保存提交事件
 const handleSaveSubmit = async function (e) {
     e.preventDefault()
@@ -158,7 +93,22 @@ const handleSaveSubmit = async function (e) {
 }
 
 
+//绑定修改页面提交事件
+const bindUpdataEvent = () => {
+    // 返回按钮逻辑
+    $('#back').on('click', function () {
+        bus.emit('go', '/movies')
+    })
+    //当文件域值发生改变时，改变预览框的图片路径
+    $('#posterPic').on('change', function () {
+        let _src = getPath($(this)) //获取文件真实路径（谷歌浏览器出于安全考虑，上传文件时 会将文件目录加密，fakepath）
+        $('#posterPicPreView').css("background-image", `url(${_src})`)
 
+    })
+    //当更新表单发生提交时，
+    $('#updata-form').submit(handleUpdataSubmit)
+}
+//页面修改提交事件处理
 const handleUpdataSubmit = async function (e) {
     e.preventDefault()
     if (_isLoading) return false;
@@ -170,11 +120,60 @@ const handleUpdataSubmit = async function (e) {
 }
 
 
+//绑定搜索点击事件
+const bindSearchEvent = () => {
+    // 返回按钮逻辑
+    $('#searchBtn').on('click', handleSearchMovies)
+
+}
+//搜索事件处理
+const handleSearchMovies = async function () {
+
+    let _name = $('#keywords').val();
+    if (_name === '') {
+        bus.emit('go', '/movies/#/' + new Date().getTime())
+        return false
+    }
+    let searchData = await movies_model.searchMoviesByName({
+        movieName: _name
+    });
+    console.log(searchData)
+    let html = ''
+    if (JSON.stringify(searchData.data) == '[]' || searchData.status === '500') {
+        console.log(500)
+        html = template.render(note_found_template, {})
+        $('#disWrap').html(html)
+    } else {
+
+        html = template.render(movies_info_template, {
+            data: searchData.data
+        })
+        $('#router-view').html(html)
+        bindListEvent()
+        bindSearchEvent()
+        $('#keywords').val(_name);
+    }
+
+}
+
+
+//处理删除操作
+const handleRemoveMovies = async function () {
+
+    let _id = $(this).parents("tr").data("id");
+    let info = await movies_model.deleteMovieInfo({
+        id: _id
+    });
+    console.log(info)
+}
+
+
+
 export default {
     list,
     add,
-    showAddMovie, 
+    showAddMovie,
     update,
-    handleUpdataSubmit  
-    
+    handleUpdataSubmit
+
 }

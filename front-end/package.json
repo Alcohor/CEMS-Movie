@@ -31,6 +31,8 @@
   "license": "ISC",
   "dependencies": {
     "@babel/runtime": "^7.1.2",
-    "sme-router": "^0.12.8"
+    "sme-router": "^0.12.8",
+    "sweetalert": "^2.1.0",
+    "sweetalert2": "^7.28.10"
   }
 }
