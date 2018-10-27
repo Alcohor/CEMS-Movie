@@ -9,14 +9,23 @@ export default { bus, toast, handleToastByData }//最正规
 
 import getPath from './getPath'
 import bus from './bus'
-
+import toast from './toast'
+import handleToastByData from './handleToastByData'
 
 export {
     getPath,
-    bus
+    bus,
+    toast,
+    handleToastByData
 }
 
 export default {
     getPath,
-    bus
+    bus,
+    toast,
+    handleToastByData
 }
+
+
+
+
