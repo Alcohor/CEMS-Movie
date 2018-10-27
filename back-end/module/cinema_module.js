@@ -3,6 +3,7 @@ const mongoose = require('../utils/mongoose')
 //引入处理时间戳
 const Moment = require('moment');
 
+//创建model模型
 var Cinema = mongoose.model('cinemas', new mongoose.Schema({
     name : String,//影院名称
     city : String,//影院地点
@@ -28,7 +29,7 @@ const list = () => {
     return new Cinema({  
         ...body,
         createTime : _timestamp,
-        formaTime : moment.format("YYYY-MM-DD, hh:mm")
+        formaTime : moment.format("YYYY-MM-DD, hh:mm") 
         
     }).save() 
         .then((results) => {

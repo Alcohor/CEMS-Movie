@@ -112,7 +112,6 @@ const bindUpdataEvent = () => {
 const handleUpdataSubmit = async function (e) {
     e.preventDefault()
     if (_isLoading) return false;
-    console.log("updata")
     _isLoading = true
     let result = await movies_model.updataMovieInfo()
     _isLoading = false;
@@ -137,7 +136,6 @@ const handleSearchMovies = async function () {
     let searchData = await movies_model.searchMoviesByName({
         movieName: _name
     });
-    console.log(searchData)
     let html = ''
     if (JSON.stringify(searchData.data) == '[]' || searchData.status === '500') {
         console.log(500)
@@ -164,6 +162,7 @@ const handleRemoveMovies = async function () {
     let info = await movies_model.deleteMovieInfo({
         id: _id
     });
+    
     console.log(info)
 }
 
