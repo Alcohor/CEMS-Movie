@@ -13,7 +13,8 @@ var Cinema = mongoose.model('cinemas', new mongoose.Schema({
 }));
 
 const list = () => {
-    return Cinema.find({}).
+    let _query = {}////查询的约定条件
+    return Cinema.find( _query).
     then((results) => {
         return results
     }).
