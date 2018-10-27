@@ -14,7 +14,7 @@ var Cinema = mongoose.model('cinemas', new mongoose.Schema({
 
 const list = () => {
     let _query = {}////查询的约定条件
-    return Cinema.find( _query).
+    return Cinema.find( _query).sort({createTime : -1}).
     then((results) => {
         return results
     }).

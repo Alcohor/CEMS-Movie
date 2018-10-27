@@ -46,7 +46,7 @@ let _isLoading = false;
 const handleSaveSubmit = async function (e){
     e.preventDefault()
     if(_isLoading) return false;
-    _isLoading =true
+    _isLoading =true 
     let datastr = $(this).serialize();
     let params = qs.params(datastr)
     let _result = await cinema_model.save(params)
