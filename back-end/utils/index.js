@@ -10,17 +10,17 @@ const dataHandler = (data,res,template,callbacks = {})=>{
     }
     if(!data){//失败
         fail();
-        response.call(res,{template,status:"500",data:"发生了一个预期之外的错误的错误"})
+        response.call(res,{template,"status":"500","data":"发生了一个预期之外的错误的错误"})
     }else{
         success();
-        response.call(res,{template,status:'200',data:JSON.stringify(data)})
+        response.call(res,{template,"status":'200',"data":JSON.stringify(data)})
     }
 }
 
 const response = function({template,status,data}){
     this.render(template,{
-        status:status,
-        data:data
+        "status":status,
+        "data":data
     })
 } 
 

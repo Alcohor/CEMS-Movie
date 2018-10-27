@@ -19,7 +19,6 @@ var storage = multer.diskStorage({
     cb(null, _filename)
   }
 })
-
 // 过滤文件类型
 function fileFilter (req, file, cb) {
   let _flag = file.mimetype.startsWith('image')
