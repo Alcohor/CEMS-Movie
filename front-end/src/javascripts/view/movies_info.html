@@ -32,9 +32,9 @@
               <td>{{$index + 1}}</td>
               <td><img width="50" height="50" src= "http://localhost:3000{{ $value.posterPic }}" alt=""></td>
               <td>{{ $value.movieName }}</td>
-              <td>{{ each $value.actor }}{{ $value }}，{{/each}}</td>
+              <td>{{ $value.actor }}</td>
               <td>{{ $value.company }}</td>
-              <td>{{ each $value.director }}{{ $value }}，{{/each}}</td>
+              <td>{{ $value.director }}</td>
               <td>{{ $value.time }}</td>
               <td>
                 <button class="btn btn-sm btn-primary movies-update" posid="" pageno="" keywords=""><span class="fa fa-edit"></span>

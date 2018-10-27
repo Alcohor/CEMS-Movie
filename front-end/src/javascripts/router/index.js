@@ -4,7 +4,7 @@ import SMERouter from 'sme-router'
 import home_template from '../view/home.html';
 import notFound_template from '../view/404.html';
 import movies_info_controller from'../controller/movies_info_controller';
-import bus from '../util/bus'
+import {bus} from '../util'
 
 //controller控制器
 import cinema_controller from '../controller/cinema_controller';

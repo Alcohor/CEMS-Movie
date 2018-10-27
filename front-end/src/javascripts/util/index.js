@@ -7,3 +7,16 @@ export { bus, toast, handleToastByData }
 export default { bus, toast, handleToastByData }//最正规
 
 
+import getPath from './getPath'
+import bus from './bus'
+
+
+export {
+    getPath,
+    bus
+}
+
+export default {
+    getPath,
+    bus
+}
