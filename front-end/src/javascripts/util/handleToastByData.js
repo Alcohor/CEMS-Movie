@@ -20,4 +20,8 @@ const handleToastByData = ( data, options = {} ) => {
     }
 }
 
+<<<<<<< HEAD
 export default  handleToastByData
+=======
+export default  handleToastByData
+>>>>>>> master

@@ -11,4 +11,8 @@ const toast = (text, options) => {
     }) 
 }
 
+<<<<<<< HEAD
 export default toast
+=======
+export default toast
+>>>>>>> master
