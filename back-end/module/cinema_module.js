@@ -61,6 +61,11 @@ const remove = ( { id } ) => {//传入iD删除这条信息
 
 //删除影院信息结束
 
+//查找ID
+const selectID = ({ id }) =>{
+
+}
+
 module.exports = {
   list,
   save,
