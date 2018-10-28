@@ -11,7 +11,7 @@ import qs from 'querystring'
 
 const cinema = async (req,res,next) =>{
     
-    let html = template.render(cinemaList_template,{
+    let html = template.render(cinemaList_template,{//将数据渲染进模板
         data : (await cinema_model.list()).data
     })
     res.render(html);
@@ -26,9 +26,13 @@ const cinemaSave = async (req,res,next) =>{
 }
 
 //修改信息
-const cinemaUpdate = (req,res,next) =>{
+const cinemaUpdate = async (req,res) =>{
+    let { id } = req.body// 要更新的数据的id
     //1获取对应id的数据进行渲染，后端要给接口
-    res.render(cinemaList_update_template)
+    let html = template.render(cinemaList_update_template,{
+        data : (await cinema_model.selectID( { id })).data//要传入ID
+    })
+    res.render(html)
     bindUpdateEvent();
 }
 
@@ -46,7 +50,6 @@ const addClickEvent = () =>{
     //点击修改信息
     $('.pos-update').on('click',function(){
         let id = $(this).parents('tr').data('id')
-        console.log(id);
         bus.emit('go','/cinema-update' , { id } );//路由隐式传参
     })
 
@@ -98,11 +101,22 @@ const handleSaveSubmit = async function (e){
 //修改信息的绑定事件
 const bindUpdateEvent = () =>{
     //返回列表
-    $('.returnCinemaList #returnList').on('click',function(){
+    $('.cinema-update #returnList').on('click',function(){
         bus.emit('go','/cinema-list');
     })
+
+    //修改后的表单提交
+    $('.cinema-update #cineamUpdate-form').submit(bindUpdateSubmit)
 }
 
+//修改信息的提交
+const bindUpdateSubmit = async function(e) {//因为this绑定问题不能用箭头函数
+    e.preventDefault();
+    let _datastr = $(this).serialize()
+    let _data = qs.parse(_datastr)
+    let _results = await cinema_model.update(_data)  
+    handleToastByData(_results)
+}
 
 
 

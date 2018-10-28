@@ -25,15 +25,20 @@ const save = async (req,res) =>{
 const remove = async (req,res) =>{
     res.set('content-type','application/json;charset=utf8')
     let _data = await cinema_module.remove(req.query);
-    console.log(req.query);
     dataHandler(_data,res,'cinema')//返回的数据处理
 }
 
 //查找ID
 const selectID = async (req,res) =>{
     res.set('content-type','application/json;charset=utf8')
-    let _data = await cinema_module.remove(req.query);
-    console.log(req.query);
+    let _data = await cinema_module.selectID(req.query);
+    dataHandler(_data,res,'cinema')//返回的数据处理
+}
+
+//修改提交
+const update = async (req,res) =>{
+    res.set('content-type','application/json;charset=utf8')
+    let _data = await cinema_module.update(req.body);
     dataHandler(_data,res,'cinema')//返回的数据处理
 }
 
@@ -41,7 +46,8 @@ module.exports = {
     list,
     save,
     remove,
-    selectID
+    selectID,
+    update
 
 
 }
