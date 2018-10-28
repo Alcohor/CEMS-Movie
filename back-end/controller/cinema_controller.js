@@ -18,7 +18,7 @@ const list = async (req,res) => {
         res.render('cinema', { 
             status : 500 , 
             data : JSON.stringify({
-                msg : '发生了不可预知的错误'
+                'msg' : '发生了不可预知的错误'
             }) 
         })
     }
@@ -38,7 +38,7 @@ const save = async (req,res) =>{
         res.render('cinema', { 
             status : 500 , 
             data : JSON.stringify({
-                msg : '发生了不可预知的错误'
+                'msg' : '发生了不可预知的错误'
             }) 
         })
     }

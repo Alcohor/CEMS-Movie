@@ -4,6 +4,8 @@ import movies_add_template from '../view/movies_add.html'
 import note_found_template from '../view/movie_search_404.html'
 import movies_updata_template from '../view/movies_updata.html'
 import { getPath,bus } from '../util'
+import sweetalert from '../util/sweetAlert'
+import sweetAlert from '../util/sweetAlert';
 let _isLoading = false;
 //开关
 
@@ -88,8 +90,8 @@ const handleSaveSubmit = async function (e) {
     console.log("save")
     _isLoading = true
     let result = await movies_model.addMovieInfo()
+    sweetAlert.Alert(result.status)
     _isLoading = false;
-
 }
 
 
@@ -114,6 +116,7 @@ const handleUpdataSubmit = async function (e) {
     if (_isLoading) return false;
     _isLoading = true
     let result = await movies_model.updataMovieInfo()
+    sweetAlert.Alert(result.status)
     _isLoading = false;
 
 }
@@ -158,12 +161,17 @@ const handleSearchMovies = async function () {
 //处理删除操作
 const handleRemoveMovies = async function () {
 
+     
     let _id = $(this).parents("tr").data("id");
+    sweetalert.deleteAlert(remove,_id)
+
+    
+}
+async function remove(_id){
     let info = await movies_model.deleteMovieInfo({
         id: _id
     });
-    
-    console.log(info)
+    return info
 }
 
 

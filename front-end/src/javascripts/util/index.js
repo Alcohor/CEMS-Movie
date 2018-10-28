@@ -7,14 +7,14 @@ export {
     getPath,
     bus,
     toast,
-     handleToastByData
+    handleToastByData
 }
 
 export default {
     getPath,
     bus,
     toast,
-     handleToastByData
+    handleToastByData
 }
 
 

@@ -1,7 +1,7 @@
 const getAllMoviesInfo = () => {
     return new Promise((resolve) => {
         $.ajax({
-            url: '/api/movies/get',
+            url: '/api/movies/list',
             success: function (results) {
                 resolve(results)
             }
