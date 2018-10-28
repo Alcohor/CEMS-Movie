@@ -27,7 +27,7 @@
               <th>上映时间</th>
               <th style="width: 140px">操作</th>
             </tr>
-            {{ each data }}
+            {{ each data.items }}
             <tr data-id={{ $value._id }}>
               <td>{{$index + 1}}</td>
               <td><img width="50" height="50" src= "http://localhost:3000{{ $value.posterPic }}" alt=""></td>
@@ -52,7 +52,9 @@
         <div class="box-footer clearfix">
           <ul class="pagination pagination-sm no-margin pull-right">
             <li><a href="#">&laquo;</a></li>
-            <li class="active"><a href="#">1</a></li>
+            <% for(let index = 0;index < data.pageInfo.totalPage;index++){%>
+              <li class="active"><a href="#"><%= index+1 %></a></li>
+              <%} %>
             <li><a href="#">&raquo;</a></li>
           </ul>
         </div>

@@ -21,8 +21,9 @@ var Movies = mongoose.model('movies', new mongoose.Schema({
     
 }));
 
-const _get = () => {//获得所有电影数据
-    return Movies.find({}).sort({ createTime: -1 })//查找所有电影信息 * 按照时间降序排列
+const _getall = (query) => {//获得所有电影数据
+    let _query = query || {}
+    return Movies.find(_query).sort({ createTime: -1 })//查找所有电影信息 * 按照时间降序排列
         .then((results) => {
             return results
         })
@@ -30,6 +31,35 @@ const _get = () => {//获得所有电影数据
             return false
         })
 }
+
+const list = async({pageNo = 1,pageSize = 10, search =''})=>{
+    let reg = new RegExp(search,'i')
+    let _query = search ? {movieName:reg}:{}//查询条件
+    let _all_items = await _getall(_query)
+
+    return Movies.find(_query)
+    .sort({createTime:-1})
+    .skip((pageNo-1)*pageSize)
+    .limit(~~pageSize)
+    .then((result)=>{
+        return{
+            items:result,
+            pageInfo:{
+                pageNo,
+                pageSize,
+                total:_all_items.length,
+                totalPage:Math.ceil(_all_items.length/pageSize)
+            }
+        }
+    }).catch(err=>{
+        return false
+    })
+
+
+}
+
+
+
 
 let default_pic = '/uploads/posterPic/defaultPic.jpg'
 const _save = (data) => {//增加电影数据
@@ -60,11 +90,9 @@ const getMovieInfoById = ({id}) => {//按照id查找
 
 const getMovieInfoByName = (name) => {
     
-    console.log(name)
     
      return Movies.find({"movieName":{$regex: eval(`/${name}/ig`)}}).sort({ createTime: -1 })
         .then((results) => {
-            console.log(results)
             return results
         })
         .catch((err) => {
@@ -73,12 +101,11 @@ const getMovieInfoByName = (name) => {
 }
 
 const delMovieInfoById = async ({id}) => {//按照id删除
-
     let _row = await getMovieInfoById ({id:id})
-    
+    let data = {id}.id
     return Movies.deleteOne({ _id: id })
         .then((results) => {
-            results.deleteId = id;
+            results.deleteId = data;
             if ( _row.posterPic && _row.posterPic !== default_pic ) {
                 fs.removeSync(PATH.resolve(__dirname, '../public'+_row.posterPic))
             }  
@@ -110,7 +137,8 @@ const updataMovie = (body)=>{
 
 
 module.exports = {
-    get: _get,//取出全部
+    getAll: _getall,//取出全部
+    list:list,
     save: _save,//增加数据
     getById:getMovieInfoById,//根据ID取出数据
     delById:delMovieInfoById,//根据ID删除数据
