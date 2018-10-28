@@ -21,8 +21,17 @@ const save = async (req,res) =>{
     
 }
 
+//删除影院信息
+const remove = async (req,res) =>{
+    res.set('content-type','application/json;charset=utf8')
+    let _data = await cinema_module.remove(req.query);
+    console.log(req.query);
+    dataHandler(_data,res,'cinema')//返回的数据处理
+}
+
 module.exports = {
     list,
-    save
+    save,
+    remove
 
 }

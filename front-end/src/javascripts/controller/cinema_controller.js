@@ -1,9 +1,9 @@
-import { bus,handleToastByData } from '../util/index'
-import cinema_model from '../model/cinema_model'
+import { bus,handleToastByData } from '../util/'
 
 import cinemaList_template from '../view/cinemaList.html'; 
 import cinemaList_save_template from '../view/cinema_save.html'; 
 
+import cinema_model from '../model/cinema_model'
 import qs from 'querystring'
 
 
@@ -50,6 +50,7 @@ const handleSaveSubmit = async function (e){
     let datastr = $(this).serialize();//得到表单的数据
     let params = qs.parse(datastr)//转换为对象
     let _result = await cinema_model.save(params)
+
     _isLoading = false;
     handleToastByData(_result,{isRect :false})
 }

@@ -10,10 +10,11 @@ const list = () => {
 }
 
 //表单提交
-const save = () => {
+const save = (data) => {
     return $.ajax({
         url: '/api/cinema/save',
         type : 'post',
+        data,//要传数据！！！！找了半天！！！
         success:(results) => {
            return results
         }
