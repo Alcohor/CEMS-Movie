@@ -7,5 +7,6 @@ var cinema_controller = require('../controller/cinema_controller')
 router.get('/list', cinema_controller.list);
 router.post('/save', cinema_controller.save);
 router.get('/remove', cinema_controller.remove);
+router.get('/selectID', cinema_controller.selectID);
 
 module.exports = router;

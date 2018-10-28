@@ -2,6 +2,7 @@ import { bus,handleToastByData } from '../util/'
 
 import cinemaList_template from '../view/cinemaList.html'; 
 import cinemaList_save_template from '../view/cinema_save.html'; 
+import cinemaList_update_template from '../view/cinema_update.html'; 
 
 import cinema_model from '../model/cinema_model'
 import qs from 'querystring'
@@ -23,6 +24,15 @@ const cinemaSave = async (req,res,next) =>{
     res.render(cinemaList_save_template)
     saveEvent();//添加按钮
 }
+
+//修改信息
+const cinemaUpdate = (req,res,next) =>{
+    //1获取对应id的数据进行渲染，后端要给接口
+    res.render(cinemaList_update_template)
+    bindUpdateEvent();
+}
+
+
 //添加点击事件
 const addClickEvent = () =>{
     //列表跳转页面
@@ -32,6 +42,14 @@ const addClickEvent = () =>{
 
     //点击删除
     $('.pos-remove').on('click', removeCinemaListEvent)
+
+    //点击修改信息
+    $('.pos-update').on('click',function(){
+        let id = $(this).parents('tr').data('id')
+        console.log(id);
+        bus.emit('go','/cinema-update' , { id } );//路由隐式传参
+    })
+
 }
 //删除影院列表事件
 const removeCinemaListEvent = async function () {
@@ -75,11 +93,22 @@ const handleSaveSubmit = async function (e){
     _isLoading = false;
     handleToastByData(_result,{isRect :false})
 }
+//表单提交方法结束
+
+//修改信息的绑定事件
+const bindUpdateEvent = () =>{
+    //返回列表
+    $('.returnCinemaList #returnList').on('click',function(){
+        bus.emit('go','/cinema-list');
+    })
+}
+
 
 
 
 
 export default{
     cinema,  
-    cinemaSave
+    cinemaSave,
+    cinemaUpdate
 }

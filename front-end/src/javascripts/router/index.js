@@ -26,6 +26,7 @@ const _init = () =>{
     })
     router.route('/cinema-list',cinema_controller.cinema)
     router.route('/cinema-save',cinema_controller.cinemaSave)
+    router.route('/cinema-update',cinema_controller.cinemaUpdate)
     router.route('/movies',movies_info_controller.list)
     router.route('/movies-add',movies_info_controller.showAddMovie)
     router.route('/movies-update',movies_info_controller.update)
