@@ -8,7 +8,7 @@ const {dataHandler} = require("../utils")
 //列表显示
 const list = async (req,res) => {
     res.set('content-type','application/json;charset=utf8')
-    let _data = await cinema_module.list();
+    let _data = await cinema_module.list(res.query);
     dataHandler(_data,res,'cinema')//返回的数据处理
 }
 

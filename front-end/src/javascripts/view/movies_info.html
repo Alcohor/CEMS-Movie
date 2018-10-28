@@ -51,11 +51,11 @@
         </div>
         <div class="box-footer clearfix">
           <ul class="pagination pagination-sm no-margin pull-right">
-            <li><a href="#">&laquo;</a></li>
+            <li><a href="#/movies-list?pageNo=<%= (data.pageInfo.pageNo > 1) ? data.pageInfo.pageNo - 1 : data.pageInfo.pageNo%>">&laquo;</a></li>
             <% for(let index = 0;index < data.pageInfo.totalPage;index++){%>
-              <li class="active"><a href="#"><%= index+1 %></a></li>
-              <%} %>
-            <li><a href="#">&raquo;</a></li>
+              <li class="active"><a href="#/movies-list?pageNo=<%= index+1 %>"><%= index+1 %></a></li>
+            <%} %>
+            <li><a href="#/movies-list?pageNo=<%= (data.pageInfo.pageNo >data.pageInfo.totalPage ) ? data.pageInfo.pageNo + 1 : data.pageInfo.pageNo%>">&raquo;</a></li>
           </ul>
         </div>
     </div>
