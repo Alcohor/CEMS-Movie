@@ -26,8 +26,8 @@
           <th>影院票房</th>
           <th style="width: 140px">操作</th>
         </tr>
-        <tr>
-          {{each data}}
+        {{each data}}
+        <tr data-id="{{ $value._id }}">
           <td>{{$index+1}}</td>
           <td><img width="50" height="50" src="http://www.lgstatic.com/{{$value.companyLogo}}"
               alt=""></td>

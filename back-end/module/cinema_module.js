@@ -30,7 +30,6 @@ const list = () => {
 //保存添加影院数据
 const save = (body) => {
   let _timestamp = Date.now(); //保存时间
-  console.log(body);
   let moment = Moment(_timestamp);
   return new Cinema({
     ...body,
@@ -39,7 +38,6 @@ const save = (body) => {
   })
     .save()
     .then((results) => {
-      console.log(results);
       return results;
     })
     .catch((err) => {
@@ -53,6 +51,7 @@ const remove = ( { id } ) => {//传入iD删除这条信息
   //数据库操作删除，Cinema是数据库模板
    //数据库中存的是_id所以要找到_id中的id
   return Cinema.deleteOne({ _id: id }).then( (results) => {
+    results.deleteid = id //找到这个id
     return results;
   }).catch( (err) => {
     return false;

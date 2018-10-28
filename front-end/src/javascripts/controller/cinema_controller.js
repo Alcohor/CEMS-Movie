@@ -17,7 +17,7 @@ const cinema = async (req,res,next) =>{
     addClickEvent();//添加点击事件
 }
 
-
+//影院添加
 const cinemaSave = async (req,res,next) =>{
     
     res.render(cinemaList_save_template)
@@ -25,10 +25,31 @@ const cinemaSave = async (req,res,next) =>{
 }
 //添加点击事件
 const addClickEvent = () =>{
+    //列表跳转页面
     $('.cinema-list #addbtn').on('click',function(){
         bus.emit('go','/cinema-save');
     })
+
+    //点击删除
+    $('.pos-remove').on('click', removeCinemaListEvent)
 }
+//删除影院列表事件
+const removeCinemaListEvent = async function () {
+    //删除影院信息
+    let id = $(this).parents('tr').data('id')
+    console.log(id)
+    let _data = await cinema_model.remove({ id : id })
+    handleToastByData(_data,{
+        isReact: false,
+        success: (data) => {
+            // 删除成功
+            console.log(data)
+            
+            bus.emit('go', '/cinema-list?_='+data.deleteid)
+        }
+    })
+}
+
 //返回列表的事件
 const saveEvent = () =>{
     //返回列表
@@ -54,6 +75,8 @@ const handleSaveSubmit = async function (e){
     _isLoading = false;
     handleToastByData(_result,{isRect :false})
 }
+
+
 
 
 export default{

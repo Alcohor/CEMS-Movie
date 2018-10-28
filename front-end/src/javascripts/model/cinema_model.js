@@ -21,9 +21,20 @@ const save = (data) => {
     })
 }
 
+//删除列表
+const remove = (data) => {
+    return $.ajax({
+        url: '/api/cinema/remove',
+        data,
+        success:(results) => {
+           return results
+        }
+    })
+}
 
 
 export default {
     list,
-    save
+    save,
+    remove
 }
