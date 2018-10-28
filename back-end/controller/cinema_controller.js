@@ -9,19 +9,7 @@ const {dataHandler} = require("../utils")
 const list = async (req,res) => {
     res.set('content-type','application/json;charset=utf8')
     let _data = await cinema_module.list();
-    if(_data) {
-        res.render('cinema', { 
-            status : 200 , 
-            data : JSON.stringify(_data) 
-        })
-    }else{
-        res.render('cinema', { 
-            status : 500 , 
-            data : JSON.stringify({
-                msg : '发生了不可预知的错误'
-            }) 
-        })
-    }
+    dataHandler(_data,res,'cinema')//返回的数据处理
 }
 
 //添加影院
@@ -29,19 +17,7 @@ const save = async (req,res) =>{
     res.set('content-type','application/json;charset=utf8')
     let _data = await cinema_module.save(req.body);
     //判断是否插入成功
-    if(_data) {
-        res.render('cinema', { 
-            status : 200 , 
-            data : JSON.stringify(_data) 
-        })
-    }else{
-        res.render('cinema', { 
-            status : 500 , 
-            data : JSON.stringify({
-                msg : '发生了不可预知的错误'
-            }) 
-        })
-    }
+    dataHandler(_data,res,'cinema')//返回的数据处理
     
 }
 

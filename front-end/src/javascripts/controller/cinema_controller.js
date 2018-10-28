@@ -40,18 +40,18 @@ const saveEvent = () =>{
 }
 
 //表单提交方法
-//连续点击的开关判断
+//连续点击的开关判断，防止多次提交
 let _isLoading = false;
 
 const handleSaveSubmit = async function (e){
-    e.preventDefault()
+    e.preventDefault()//阻止表单的默认提交
     if(_isLoading) return false;
     _isLoading =true 
-    let datastr = $(this).serialize();
-    let params = qs.params(datastr)
+    let datastr = $(this).serialize();//得到表单的数据
+    let params = qs.parse(datastr)//转换为对象
     let _result = await cinema_model.save(params)
     _isLoading = false;
-    handleToastByData(_result)
+    handleToastByData(_result,{isRect :false})
 }
 
 

@@ -12,6 +12,7 @@ var Cinema = mongoose.model('cinemas', new mongoose.Schema({
     formaTime : String
 }));
 
+//返回影院的列表
 const list = () => {
     let _query = {}////查询的约定条件
     return Cinema.find( _query).sort({createTime : -1}).
