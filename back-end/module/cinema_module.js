@@ -60,8 +60,33 @@ const remove = ( { id } ) => {//传入iD删除这条信息
 
 //删除影院信息结束
 
+//查找ID
+const selectID = ({ id }) =>{
+  return Cinema.findById(id)
+    .then((results) => {
+      return results
+    })
+    .catch((err) => {
+      return false;
+    });
+}
+
+//修改表单提交
+const  update = (body) =>{
+  return Cinema.updateOne({ _id: body.id }, { ...body })
+    .then((results) => {
+      return results
+    })
+    .catch((err) => {
+      return false;
+    });
+}
+
 module.exports = {
   list,
   save,
-  remove
+  remove,
+  selectID,
+  update
+
 };

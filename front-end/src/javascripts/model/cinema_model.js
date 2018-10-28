@@ -32,9 +32,34 @@ const remove = (data) => {
     })
 }
 
+//根据ID查找信息（修改信息）
+const selectID = (data) => {
+    return $.ajax({
+        url: '/api/cinema/selectID',
+        data,
+        success:(results) => {
+           return results
+        }
+    })
+}
+
+//修改的提交
+const update = (data) => {
+    return $.ajax({
+        url: '/api/cinema/update',
+        type : 'post',
+        data,
+        success:(results) => {
+           return results
+        }
+    })
+}
+
 
 export default {
     list,
     save,
-    remove
+    remove,
+    selectID,
+    update
 }
