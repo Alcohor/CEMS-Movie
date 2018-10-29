@@ -59,8 +59,6 @@ const list = async({pageNo = 1,pageSize = 10, search =''})=>{
 }
 
 
-
-
 let default_pic = '/uploads/posterPic/defaultPic.jpg'
 const _save = (data) => {//增加电影数据
     let _timestamp = Date.now()
@@ -117,13 +115,18 @@ const delMovieInfoById = async ({id}) => {//按照id删除
 }
 
 
-const updataMovie = (body)=>{
+const updataMovie = async(body)=>{
     if(!body.posterPic)delete body.posterPic
+    let _row = await getMovieInfoById ({id: body._id})
+    if ( _row.posterPic && _row.posterPic !== default_pic) {
+        fs.removeSync(PATH.resolve(__dirname, '../public'+_row.posterPic))
+    }  
     if(body.republish){
         let _timestamp = Date.now()
         let moment = Moment(_timestamp)
         body.createTime = _timestamp,
         body.createTimeFormat = moment.format("YYYY-MM-DD, hh:mm")
+        
     }
     body.posterPic =  body.posterPic || default_pic
     return Movies.updateOne({ _id: body._id }, { ...body }).then((results) => {

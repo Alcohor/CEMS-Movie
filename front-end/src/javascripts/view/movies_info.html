@@ -53,9 +53,9 @@
           <ul class="pagination pagination-sm no-margin pull-right">
             <li><a href="#/movies-list?pageNo=<%= (data.pageInfo.pageNo > 1) ? data.pageInfo.pageNo - 1 : data.pageInfo.pageNo%>">&laquo;</a></li>
             <% for(let index = 0;index < data.pageInfo.totalPage;index++){%>
-              <li class="active"><a href="#/movies-list?pageNo=<%= index+1 %>"><%= index+1 %></a></li>
+              <li class="{{if data.pageInfo.pageNo == index+1}}active{{/if}}"><a href="#/movies-list?pageNo=<%= index+1 %>"><%= index+1 %></a></li>
             <%} %>
-            <li><a href="#/movies-list?pageNo=<%= (data.pageInfo.pageNo >data.pageInfo.totalPage ) ? data.pageInfo.pageNo + 1 : data.pageInfo.pageNo%>">&raquo;</a></li>
+            <li><a href="#/movies-list?pageNo=<%= (data.pageInfo.pageNo < data.pageInfo.totalPage ) ? ~~data.pageInfo.pageNo +1 : data.pageInfo.pageNo%>">&raquo;</a></li>
           </ul>
         </div>
     </div>

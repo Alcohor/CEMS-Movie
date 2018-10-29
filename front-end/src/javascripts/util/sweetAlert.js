@@ -14,7 +14,6 @@ const deleteAlert = (remove,_page, _id) => {
     }).then(async function (isConfirm) {
         if (isConfirm.value) {
             let result = await remove(_id,_page)
-            console.log(result)
             if (result.status == 200) {
                 swal(
                     '已删除',
