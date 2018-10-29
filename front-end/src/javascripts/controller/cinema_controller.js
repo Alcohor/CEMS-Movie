@@ -112,9 +112,10 @@ const bindUpdateEvent = () =>{
 //修改信息的提交
 const bindUpdateSubmit = async function(e) {//因为this绑定问题不能用箭头函数
     e.preventDefault();
-    let _datastr = $(this).serialize()
-    let _data = qs.parse(_datastr)
-    let _results = await cinema_model.update(_data)  
+    //  使用jquery.form.js不用再传数据，它会自己找
+    // let _datastr = $(this).serialize()
+    // let _data = qs.parse(_datastr)
+    let _results = await cinema_model.update()  
     handleToastByData(_results)
 }
 

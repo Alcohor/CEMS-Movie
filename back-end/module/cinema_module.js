@@ -27,10 +27,14 @@ const list = (query) => {
 };
 //返回列表结束
 
+let default_logo = '/uploads/logos/logo.jpg'
+
+
 //保存添加影院数据
 const save = (body) => {
   let _timestamp = Date.now(); //保存时间
   let moment = Moment(_timestamp);
+  body.cinemaLogo =  body.cinemaLogo || default_logo
   return new Cinema({
     ...body,
     createTime: _timestamp,
@@ -50,8 +54,13 @@ const save = (body) => {
 const remove = ( { id } ) => {//传入iD删除这条信息
   //数据库操作删除，Cinema是数据库模板
    //数据库中存的是_id所以要找到_id中的id
+   let _row = selectID({id})
   return Cinema.deleteOne({ _id: id }).then( (results) => {
     results.deleteid = id //找到这个id
+    //判断删除的文件的图片,有图片就删除图片
+    if ( _row.cinemaLogo && _row.cinemaLogo !== default_logo ) {
+      fs.removeSync(PATH.resolve(__dirname, '../public'+_row.cinemaLogo))
+    }  
     return results;
   }).catch( (err) => {
     return false;
@@ -74,6 +83,7 @@ const selectID = ({ id }) =>{
 
 //修改表单提交
 const  update = (body) =>{
+  if(!body.cinemaLogo) delete body.cinemaLogo;
   //是否重新发布
   if(body.isRupublish){//存在勾选就重新发布信息
     let _timestamp = Date.now(); //保存时间

@@ -10,6 +10,6 @@ router.get('/list', cinema_controller.list);
 router.post('/save',fileUpload,cinema_controller.save);
 router.get('/remove', cinema_controller.remove);
 router.get('/selectID', cinema_controller.selectID);
-router.post('/update', cinema_controller.update);
+router.post('/update',fileUpload, cinema_controller.update);
 
 module.exports = router;
