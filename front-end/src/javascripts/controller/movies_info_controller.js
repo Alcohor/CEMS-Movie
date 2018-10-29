@@ -101,7 +101,8 @@ const handleSaveSubmit = async function (e) {
     if (_isLoading) return false;
     _isLoading = true
     let result = await movies_model.addMovieInfo()
-    sweetAlert.Alert(result.status)
+    await sweetAlert.Alert(result.status)
+    bus.emit('go', '/movies-list/#/')
     _isLoading = false;
 }
 
@@ -114,9 +115,13 @@ const bindUpdataEvent = () => {
     })
     //当文件域值发生改变时，改变预览框的图片路径
     $('#posterPic').on('change', function () {
-        let _src = getPath($(this)) //获取文件真实路径（谷歌浏览器出于安全考虑，上传文件时 会将文件目录加密，fakepath）
-        $('#posterPicPreView').css("background-image", `url(${_src})`)
-
+        var oFReader = new FileReader();
+        var file = $(this).get(0).files[0];
+        oFReader.readAsDataURL(file);
+        oFReader.onloadend = function (oFRevent) {
+            var _src = oFRevent.target.result;
+            $('#posterPicPreView').css("background-image", `url(${_src})`)
+        }
     })
     //当更新表单发生提交时，
     $('#updata-form').submit(handleUpdataSubmit)
@@ -127,7 +132,9 @@ const handleUpdataSubmit = async function (e) {
     if (_isLoading) return false;
     _isLoading = true
     let result = await movies_model.updataMovieInfo()
-    sweetAlert.Alert(result.status)
+    await sweetAlert.Alert(result.status)
+    bus.emit('go', '/movies-list/#/')
+
     _isLoading = false;
 }
 
@@ -143,7 +150,7 @@ const handleSearchMovies = async function () {
 
     let _name = $('#keywords').val();
     if (_name === '') {
-        bus.emit('go', '/movies/#/' + new Date().getTime())
+        bus.emit('go', '/movies-list/#/' + new Date().getTime())
         return false
     }
     let searchData = await movies_model.searchMoviesByName({

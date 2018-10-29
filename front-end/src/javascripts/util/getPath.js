@@ -3,7 +3,7 @@ function getPath($obj) {
     const file = $obj.get(0).files[0];
     
     oFReader.readAsDataURL(file);
-    return oFReader.onloadend = function (oFRevent) {
+     oFReader.onloadend = function (oFRevent) {
         return  oFRevent.target.result;
     }
 }
