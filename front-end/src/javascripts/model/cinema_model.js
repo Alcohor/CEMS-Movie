@@ -1,8 +1,9 @@
 
 //列表数据
-const list = () => {
+const list = (page) => {
     return $.ajax({
         url: '/api/cinema/list',
+        data: page,
         success:(results) => {
            return results
         }

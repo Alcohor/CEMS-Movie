@@ -13,13 +13,41 @@ var Cinema = mongoose.model("cinemas",new mongoose.Schema({
   })
 );
 
-//返回影院的列表
-const list = (query) => {
-  let _query = {}; ////查询的约定条件
+//返回影院的全部列表,用于查找
+const listall = (query) => {
+  let _query = query || {} ; ////查询的约定条件
   return Cinema.find(_query)
     .sort({ createTime: -1 }) //按时间降序排列
     .then((results) => {
       return results
+    })
+    .catch((err) => {
+      return false;
+    });
+};
+
+//返回影院的列表
+const list = async ( { pageNo = 1 , pageSize = 10} ) => {
+  let _query = {}; ////查询的约定条件
+
+  let _all_items = await listall(_query)
+  return Cinema.find(_query)
+  //按时间降序排列
+  //skip 从哪里开始取
+  //limit 去几条
+    .sort({ createTime: -1 })
+    .skip((pageNo - 1)*(pageSize))
+    .limit(~~pageSize)//~~是将pageSize转成Number，pageSize原本是string,效率最高
+    .then((results) => {
+      return {
+        items : results,//数据信息
+        pageInfo : {
+          pageNo,
+          pageSize,
+          total: _all_items.length, // 总数
+          totalPage: Math.ceil(_all_items.length / pageSize) // 总页数
+        }
+      }
     })
     .catch((err) => {
       return false;
@@ -101,11 +129,14 @@ const  update = (body) =>{
     });
 }
 
+
+
 module.exports = {
   list,
   save,
   remove,
   selectID,
-  update
+  update,
+  listall
 
 };
