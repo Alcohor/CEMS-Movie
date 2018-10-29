@@ -80,7 +80,7 @@ const bindListEvent = (_page) => {
 const bindSaveEvent = () => {
     // 返回按钮逻辑
     $('#back').on('click', function () {
-        bus.emit('go', '/movies')
+        bus.emit('go', '/movies-list')
     })
     $('#posterPic').on('change', function () {
         var oFReader = new FileReader();
@@ -110,7 +110,7 @@ const handleSaveSubmit = async function (e) {
 const bindUpdataEvent = () => {
     // 返回按钮逻辑
     $('#back').on('click', function () {
-        bus.emit('go', '/movies')
+        bus.emit('go', '/movies-list')
     })
     //当文件域值发生改变时，改变预览框的图片路径
     $('#posterPic').on('change', function () {
@@ -129,7 +129,6 @@ const handleUpdataSubmit = async function (e) {
     let result = await movies_model.updataMovieInfo()
     sweetAlert.Alert(result.status)
     _isLoading = false;
-
 }
 
 
