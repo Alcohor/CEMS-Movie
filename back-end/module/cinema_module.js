@@ -73,6 +73,14 @@ const selectID = ({ id }) =>{
 
 //修改表单提交
 const  update = (body) =>{
+  //是否重新发布
+  if(body.isRupublish){//存在勾选就重新发布信息
+    let _timestamp = Date.now(); //保存时间
+    let moment = Moment(_timestamp);
+    body.createTime = _timestamp;
+    body.formaTime = moment.format("YYYY-MM-DD, hh:mm");
+
+  }
   return Cinema.updateOne({ _id: body.id }, { ...body })
     .then((results) => {
       return results
