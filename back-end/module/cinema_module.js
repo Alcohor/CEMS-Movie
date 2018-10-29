@@ -8,7 +8,8 @@ var Cinema = mongoose.model("cinemas",new mongoose.Schema({
     city: String, //影院地点
     boxOffice: String, //票房
     createTime: String, //发布时间
-    formaTime: String
+    formaTime: String,
+    cinemaLogo : String //影院的logo
   })
 );
 
