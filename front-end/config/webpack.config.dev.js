@@ -5,16 +5,25 @@
 module.exports = {
     mode : 'development',
     //入口 
-    entry : './src/javascripts/app',
+    entry:{
+        main : ['./src/javascripts/app'],
+        login:['./src/javascripts/login']
+    },
     //出口文件
     output  :{
-        filename : 'main.js',
+        filename : '[name].js',
         path : path.resolve(__dirname,'../dev')
     },
     plugins: [
         new htmlWebPackPlugin({
             template: './src/index.html',
-            filename: 'index.html'
+            filename: 'index.html',
+            chunks:['main']
+        }),
+        new htmlWebPackPlugin({
+            template: './src/login.html',
+            filename: 'login.html',
+            chunks: ['login']
         }),
         new CopyWebpackPlugin([{
             from: path.resolve(__dirname, '../static'),
