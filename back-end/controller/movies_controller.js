@@ -12,6 +12,7 @@ const get = async (req, res) => {
 const list = async(req,res)=>{
     res.set('content-type', 'application/json; charset=utf8')
     let _data = await movies_module.list(req.query);
+    console.log(req.query)
     dataHandler(_data, res, 'movies')
 }
 
@@ -30,7 +31,6 @@ const getMovieInfoById = async (req, res) => {
 const delMovieInfoById = async (req, res) => {
     res.set('content-type', 'application/json; charset=utf8')
     let _data = await movies_module.delById(req.query) //根据请求的 query 返回单个信息的方法
-    console.log(_data)
     dataHandler(_data, res, 'movies') //返回的数据处理
 }
 

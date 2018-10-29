@@ -1,4 +1,4 @@
-const deleteAlert = (remove, _id) => {
+const deleteAlert = (remove,_page, _id) => {
     swal({
         title: '确定删除吗？',
         text: '你将无法恢复它！',
@@ -12,9 +12,8 @@ const deleteAlert = (remove, _id) => {
         cancelButtonClass: 'btn btn-danger',
         buttonsStyling: false
     }).then(async function (isConfirm) {
-        console.log(isConfirm)
         if (isConfirm.value) {
-            let result = await remove(_id)
+            let result = await remove(_id,_page)
             if (result.status == 200) {
                 swal(
                     '已删除',

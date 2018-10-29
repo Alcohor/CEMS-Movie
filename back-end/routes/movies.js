@@ -3,7 +3,7 @@ const router = express.Router();
 const movies = require('../controller/movies_controller')
 const fileupload = require('../middleware/moviesPicUpload')
 //routes/movies/get
-router.get('/list',movies.list)
+router.get('/movies-list',movies.list)
 router.post('/save',fileupload,movies.save)
 router.get('/getbyid',movies.getById)
 router.get('/deletebyid',movies.delById)

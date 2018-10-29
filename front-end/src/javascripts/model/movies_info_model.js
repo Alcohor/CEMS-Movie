@@ -1,7 +1,8 @@
-const getAllMoviesInfo = () => {
+const list = (data) => {
     return new Promise((resolve) => {
         $.ajax({
-            url: '/api/movies/list',
+            url: '/api/movies/movies-list',
+            data,
             success: function (results) {
                 resolve(results)
             }
@@ -71,7 +72,7 @@ const updataMovieInfo = (data) => {
 
 
 export default {
-    getAllMoviesInfo,
+    list,
     addMovieInfo,
     deleteMovieInfo,
     searchMoviesByName,

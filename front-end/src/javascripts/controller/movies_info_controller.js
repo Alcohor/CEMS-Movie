@@ -7,16 +7,26 @@ import { getPath,bus } from '../util'
 import sweetalert from '../util/sweetAlert'
 import sweetAlert from '../util/sweetAlert';
 let _isLoading = false;
+import qs from 'querystring'
 //开关
 
 //列表渲染控制器
 const list = async (req, res, next) => {
+
+    req.query = req.query || {}
+    
+    let _page={
+        pageNo : req.query.pageNo,
+        pageSize : req.query.pageSize,
+        search : req.query.search
+    }
+
     let html = template.render(movies_info_template, {
-        data: (await movies_model.getAllMoviesInfo()).data // 获取到列表数据
+        data: (await movies_model.list(req.query)).data // 获取到列表数据
     })
     res.render(html)
-    bindListEvent()
-    bindSearchEvent()
+    bindListEvent(_page)
+    bindSearchEvent(_page)
 }
 //添加方法
 const add = async (req, res, next) => {
@@ -50,7 +60,7 @@ const update = async (req, res) => {
 
 
 //绑定列表按钮点击事件
-const bindListEvent = () => {
+const bindListEvent = (_page) => {
     // 添加按钮点击跳转到添加路由
     $('#addbtn').on('click', function () {
         bus.emit('go', '/movies-add')
@@ -61,14 +71,16 @@ const bindListEvent = () => {
             id: _id
         })
     })
-    $('.movies-remove').on('click', handleRemoveMovies)
+    $('.movies-remove').on('click', function(_page){
+        handleRemoveMovies.bind(this,_page)()
+    } )
 }
 
 //绑定保存页面事件
 const bindSaveEvent = () => {
     // 返回按钮逻辑
     $('#back').on('click', function () {
-        bus.emit('go', '/movies')
+        bus.emit('go', '/movies-list')
     })
     $('#posterPic').on('change', function () {
         var oFReader = new FileReader();
@@ -87,7 +99,6 @@ const bindSaveEvent = () => {
 const handleSaveSubmit = async function (e) {
     e.preventDefault()
     if (_isLoading) return false;
-    console.log("save")
     _isLoading = true
     let result = await movies_model.addMovieInfo()
     sweetAlert.Alert(result.status)
@@ -99,7 +110,7 @@ const handleSaveSubmit = async function (e) {
 const bindUpdataEvent = () => {
     // 返回按钮逻辑
     $('#back').on('click', function () {
-        bus.emit('go', '/movies')
+        bus.emit('go', '/movies-list')
     })
     //当文件域值发生改变时，改变预览框的图片路径
     $('#posterPic').on('change', function () {
@@ -118,7 +129,6 @@ const handleUpdataSubmit = async function (e) {
     let result = await movies_model.updataMovieInfo()
     sweetAlert.Alert(result.status)
     _isLoading = false;
-
 }
 
 
@@ -141,7 +151,7 @@ const handleSearchMovies = async function () {
     });
     let html = ''
     if (JSON.stringify(searchData.data) == '[]' || searchData.status === '500') {
-        console.log(500)
+        
         html = template.render(note_found_template, {})
         $('#disWrap').html(html)
     } else {
@@ -159,18 +169,19 @@ const handleSearchMovies = async function () {
 
 
 //处理删除操作
-const handleRemoveMovies = async function () {
+const handleRemoveMovies = async function (_page) {
 
      
     let _id = $(this).parents("tr").data("id");
-    sweetalert.deleteAlert(remove,_id)
-
-    
+    sweetalert.deleteAlert(remove,_page,_id)
 }
-async function remove(_id){
+async function remove(_id,_page){
     let info = await movies_model.deleteMovieInfo({
         id: _id
     });
+    let trs = $('tr[data-id]')
+    let _pageNo = trs.length > 1 ? _page.pageNo : (_page.pageNo - (_page.pageNo > 1 ? 1 : 0))
+    bus.emit('go', `/movies-list/pageNo=${_pageNo}&_=${_id}`)
     return info
 }
 

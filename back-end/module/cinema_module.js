@@ -13,7 +13,7 @@ var Cinema = mongoose.model("cinemas",new mongoose.Schema({
 );
 
 //返回影院的列表
-const list = () => {
+const list = (query) => {
   let _query = {}; ////查询的约定条件
   return Cinema.find(_query)
     .sort({ createTime: -1 }) //按时间降序排列
