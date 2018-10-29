@@ -17,11 +17,13 @@ module.exports = {
     plugins: [
         new htmlWebPackPlugin({
             template: './src/index.html',
-            filename: 'index.html'
+            filename: 'index.html',
+            chunks:['main']
         }),
         new htmlWebPackPlugin({
             template: './src/login.html',
-            filename: 'login.html'
+            filename: 'login.html',
+            chunks: ['login']
         }),
         new CopyWebpackPlugin([{
             from: path.resolve(__dirname, '../static'),
