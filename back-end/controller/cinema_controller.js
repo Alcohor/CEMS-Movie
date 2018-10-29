@@ -48,6 +48,4 @@ module.exports = {
     remove,
     selectID,
     update
-
-
 }
