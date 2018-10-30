@@ -1,4 +1,6 @@
 
+const bcrypt = require('bcrypt')
+
 const none = ()=>{}
 
 //数据处理
@@ -24,19 +26,20 @@ const response = function({template,status,data}){
     })
 } 
 
-
-const hash = (textplain) => {  
-    const saltRounds = 10; // 加密强度 10
-    return new Promise((resolve) => {
-        bcrypt.genSalt(saltRounds, function(err, salt) {
-            bcrypt.hash(textplain, salt, function(err, hash) {
-                // Store hash in your password DB.
-                resolve(hash)
-            });
-        });
-    })
+  
+    const hash = (password) => {  
+        const saltRounds = 10;
+        //随机生成salt
+        const salt = bcrypt.genSaltSync(saltRounds);
+        //获取hash值
+        var hash = bcrypt.hashSync(password, salt);
+         //把hash值赋值给password变量
+        password = hash;
+        return password
+      
+    }
     
-}
+
 
 module.exports = {
     dataHandler,

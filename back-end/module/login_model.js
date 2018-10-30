@@ -11,7 +11,10 @@ var User = mongoose.model("users", new mongoose.Schema({
     registerTime:String
 }))
 
-const register = async ({ username,password,tel}) =>{
+const register = ({ username,password,tel}) =>{
+    // let _password = await hash(password)
+
+
     //生成salt的迭代次数 
     const saltRounds = 10; //随机生成salt
     const salt = bcrypt.genSaltSync(saltRounds);
@@ -19,7 +22,6 @@ const register = async ({ username,password,tel}) =>{
      var hash = bcrypt.hashSync(password, salt); 
      //把hash值赋值给password变量 
      var _password = hash;
-
 
     return new User({
         username,

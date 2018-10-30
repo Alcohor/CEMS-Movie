@@ -11,15 +11,15 @@ const init = () =>{
     //绑定事件
     bindEvent()
     
+    login()
 }
 
 const bindEvent = () =>{
-
-    $('#regist_btn').on('click',async function(e){
+    //注册
+    $('#regist_container').on('submit',async function(e){
         e.preventDefault()
         let _params = $(this).serialize()
         let _result = await admin_model.register(qs.parse(_params))
-        console.log(_params)
         switch ( _result.status ) {
             case 500: toast('失败，服务器出了问题'); break;
             case 201:  toast('用户已存在'); break;
@@ -28,14 +28,31 @@ const bindEvent = () =>{
                 render('signin')
                 break;
         }
+        $("#regist_container").hide();
+        $("#_close").show();
+        $("#_start").animate({
+            left: '350px',
+            height: '520px',
+            width: '400px'
+        }, 500, function() {
+            $("#login_container").show(500);
+            $("#_close").animate({
+                height: '40px',
+                width: '40px'
+            }, 500);
+        });
+
     })
-    //  登录表单
-    $('#login_btn').on('click',async function(e) {
+
+}
+
+const login = async () =>{
+       //  登录表单
+       $('#login_container').on('submit',async function(e) {
         e.preventDefault()
-        let _params = $(this).serialize()
+        let _params =$(this).serialize()
         console.log(_params)
         let _result = await admin_model.login(qs.parse(_params))
-        console.log(_result)
         switch ( _result.status ) {
             case 203: toast('密码错误'); break;
             case 202:  toast('用户不存在'); break;
@@ -44,10 +61,7 @@ const bindEvent = () =>{
             break;
         }
     })
-
 }
-
-
 
 const render = () =>{
     var _html = template.render(login_template)

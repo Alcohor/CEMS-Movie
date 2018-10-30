@@ -7,7 +7,7 @@ const { handleData } =require('../utils')
 //注册
 const register = async (req,res,next) =>{
     let _judge_result = await user_model.judgeUserByusername(req.body.username)
-
+    console.log(req.body)
     if(!!_judge_result.length){
         let _data = await user_model.register(req.body)
         handleData(_data,res,'user')
