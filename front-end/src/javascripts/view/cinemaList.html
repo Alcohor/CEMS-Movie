@@ -14,7 +14,7 @@
       </div>
     </div>
     <!-- /.box-header -->
-    {{ if data.length > 0 }}
+    {{ if data.items.length > 0 }}
     <div class="box-body">
       <table class="table table-bordered cinema-list__tabel">
         <tr>
@@ -26,10 +26,10 @@
           <th>影院票房</th>
           <th style="width: 140px">操作</th>
         </tr>
-        {{each data}}
+        {{each data.items}}
         <tr data-id="{{ $value._id }}">
           <td>{{$index+1}}</td>
-          <td><img width="50" height="50" src="http://www.lgstatic.com/{{$value.companyLogo}}"
+          <td><img width="50" height="50" src="http://localhost:3000{{ $value.cinemaLogo }}"
               alt=""></td>
           <td>{{ $value.name }}</td>
           <td>{{ $value.city }}</td>
@@ -50,9 +50,11 @@
     </div>
     <div class="box-footer clearfix">
       <ul class="pagination pagination-sm no-margin pull-right">
-        <li><a href="#">&laquo;</a></li>
-        <li class="active"><a href="#">1</a></li>
-        <li><a href="#">&raquo;</a></li>
+        <li><a href="#/cinema-list?pageNo=<%= (data.pageInfo.pageNo > 1) ? data.pageInfo.pageNo - 1 : data.pageInfo.pageNo%>">&laquo;</a></li>
+        <% for(var i = 0;i < data.pageInfo.totalPage;i++){ %>
+        <li class="{{if data.pageInfo.pageNo == i+1}}active{{/if}}"><a href="#/cinema-list?pageNo=<%= i+1 %>"><%= i+1 %></a></li>
+        <% } %>
+        <li><a href="#/cinema-list?pageNo=<%= (data.pageInfo.pageNo < data.pageInfo.totalPage)?~~data.pageInfo.pageNo + 1 : data.pageInfo.totalPage %>">&raquo;</a></li>
       </ul>
     </div>
   </div>
@@ -62,7 +64,7 @@
             <!-- <h3 class="box-title">Blank Box</h3> -->
           </div>
           <div class="box-body">
-              当前没有职位信息，快去添加吧...
+              当前没有影院信息，快去添加吧...
           </div>
           <!-- /.box-body -->
         </div>

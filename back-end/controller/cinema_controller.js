@@ -8,7 +8,7 @@ const {dataHandler} = require("../utils")
 //列表显示
 const list = async (req,res) => {
     res.set('content-type','application/json;charset=utf8')
-    let _data = await cinema_module.list(res.query);
+    let _data = await cinema_module.list(req.query);
     dataHandler(_data,res,'cinema')//返回的数据处理
 }
 
@@ -42,10 +42,18 @@ const update = async (req,res) =>{
     dataHandler(_data,res,'cinema')//返回的数据处理
 }
 
+//查询
+const listall = async (req,res) => {
+    res.set('content-type','application/json;charset=utf8')
+    let _data = await cinema_module.listall(req.query);
+    dataHandler(_data,res,'cinema')//返回的数据处理
+}
+
 module.exports = {
     list,
     save,
     remove,
     selectID,
-    update
+    update,
+    listall
 }

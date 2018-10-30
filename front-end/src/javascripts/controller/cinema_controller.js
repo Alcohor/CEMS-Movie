@@ -10,12 +10,19 @@ import qs from 'querystring'
 
 
 const cinema = async (req,res,next) =>{
-    
+    req.query = req.query || {} //防止没有参数的时候，req.query为null
+
+    let _page = {
+        pageNo: req.query.pageNo,
+        pageSize: req.query.pageSize,
+        search: req.query.search
+    }
+
     let html = template.render(cinemaList_template,{//将数据渲染进模板
-        data : (await cinema_model.list()).data
+        data : (await cinema_model.list(_page)).data
     })
     res.render(html);
-    addClickEvent();//添加点击事件
+    addClickEvent(_page);//添加点击事件
 }
 
 //影院添加
@@ -38,14 +45,14 @@ const cinemaUpdate = async (req,res) =>{
 
 
 //添加点击事件
-const addClickEvent = () =>{
+const addClickEvent = (_page) =>{
     //列表跳转页面
     $('.cinema-list #addbtn').on('click',function(){
         bus.emit('go','/cinema-save');
     })
 
     //点击删除
-    $('.pos-remove').on('click', removeCinemaListEvent)
+    $('.pos-remove').on('click', removeCinemaListEvent.bind(null,_page))
 
     //点击修改信息
     $('.pos-update').on('click',function(){
@@ -55,18 +62,18 @@ const addClickEvent = () =>{
 
 }
 //删除影院列表事件
-const removeCinemaListEvent = async function () {
+const removeCinemaListEvent = async function (_page) {
     //删除影院信息
     let id = $(this).parents('tr').data('id')
-    console.log(id)
     let _data = await cinema_model.remove({ id : id })
+     // 删除的时候此页还有多少条数据
     handleToastByData(_data,{
         isReact: false,
         success: (data) => {
             // 删除成功
             console.log(data)
             
-            bus.emit('go', '/cinema-list?_='+data.deleteid)
+            bus.emit('go', '/cinema-list?pageNo='+_page.pageNo+'&_='+data.deleteid)
         }
     })
 }
@@ -84,17 +91,17 @@ const saveEvent = () =>{
 //表单提交方法
 //连续点击的开关判断，防止多次提交
 let _isLoading = false;
-
 const handleSaveSubmit = async function (e){
     e.preventDefault()//阻止表单的默认提交
     if(_isLoading) return false;
     _isLoading =true 
-    let datastr = $(this).serialize();//得到表单的数据
-    let params = qs.parse(datastr)//转换为对象
-    let _result = await cinema_model.save(params)
+    //旧的版本，新的版本要上传文件
+    //let datastr = $(this).serialize();//得到表单的数据
+    //let params = qs.parse(datastr)//转换为对象
+    let _result = await cinema_model.save()
 
     _isLoading = false;
-    handleToastByData(_result,{isRect :false})
+    handleToastByData(_result)
 }
 //表单提交方法结束
 
@@ -112,9 +119,10 @@ const bindUpdateEvent = () =>{
 //修改信息的提交
 const bindUpdateSubmit = async function(e) {//因为this绑定问题不能用箭头函数
     e.preventDefault();
-    let _datastr = $(this).serialize()
-    let _data = qs.parse(_datastr)
-    let _results = await cinema_model.update(_data)  
+    //  使用jquery.form.js不用再传数据，它会自己找
+    // let _datastr = $(this).serialize()
+    // let _data = qs.parse(_datastr)
+    let _results = await cinema_model.update()  
     handleToastByData(_results)
 }
 
