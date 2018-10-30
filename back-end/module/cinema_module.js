@@ -1,6 +1,8 @@
 const mongoose = require("../utils/mongoose");
 //引入处理时间戳
 const Moment = require("moment");
+const fs = require('fs-extra') // 时间格式化
+const PATH = require('path') // 时间格式化
 
 //创建model模型
 var Cinema = mongoose.model("cinemas",new mongoose.Schema({

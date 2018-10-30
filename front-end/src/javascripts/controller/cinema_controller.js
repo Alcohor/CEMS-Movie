@@ -5,7 +5,7 @@ import cinemaList_save_template from '../view/cinema_save.html';
 import cinemaList_update_template from '../view/cinema_update.html'; 
 
 import cinema_model from '../model/cinema_model'
-import qs from 'querystring'
+
 
 
 
@@ -90,7 +90,7 @@ const removeCinemaListEvent = async function (_page) {
             let _pageNo = _page.pageNo 
             _pageNo -= data.isBack ? 1 : 0
             // 删除成功
-            bus.emit('go', '/cinema-list?pageNo='+_pageNo+'&_='+data.deleteid + '&search='+_page.search)
+            bus.emit('go', '/cinema-list?pageNo='+_pageNo+'&_='+data.deleteid)
         }
     })
 }

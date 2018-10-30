@@ -50,7 +50,7 @@
     </div>
     <div class="box-footer clearfix">
       <ul class="pagination pagination-sm no-margin pull-right">
-        <li><a href="#/cinema-list?search=<%= data.pageInfo.search %>pageNo=<%= (data.pageInfo.pageNo > 1) ? data.pageInfo.pageNo - 1 : data.pageInfo.pageNo%>">&laquo;</a></li>
+        <li><a href="#/cinema-list?pageNo=<%= (data.pageInfo.pageNo > 1) ? data.pageInfo.pageNo - 1 : data.pageInfo.pageNo%>">&laquo;</a></li>
         <% for(var i = 0;i < data.pageInfo.totalPage;i++){ %>
         <li class="{{if data.pageInfo.pageNo == i+1}}active{{/if}}"><a href="#/cinema-list?pageNo=<%= i+1 %>"><%= i+1 %></a></li>
         <% } %>
