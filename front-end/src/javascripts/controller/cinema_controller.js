@@ -52,7 +52,9 @@ const addClickEvent = (_page) =>{
     })
 
     //点击删除
-    $('.pos-remove').on('click', removeCinemaListEvent.bind(null,_page))
+    $('.pos-remove').on('click', function(){//this绑定点的问题
+        removeCinemaListEvent.bind(this,_page)()
+    })
 
     //点击修改信息
     $('.pos-update').on('click',function(){
@@ -67,13 +69,16 @@ const removeCinemaListEvent = async function (_page) {
     let id = $(this).parents('tr').data('id')
     let _data = await cinema_model.remove({ id : id })
      // 删除的时候此页还有多少条数据
+    let trs = $('.cinema-list__tabel tr[data-id]')//判断页面是否还有列表数据
+    //判断页数，如果trs的长度大于1，说明还有信息，否则页数往前跳
+    let _pageNo = trs.length > 1 ? _page.pageNo : _page.pageNo-1;
     handleToastByData(_data,{
         isReact: false,
         success: (data) => {
             // 删除成功
             console.log(data)
             
-            bus.emit('go', '/cinema-list?pageNo='+_page.pageNo+'&_='+data.deleteid)
+            bus.emit('go', '/cinema-list?pageNo='+_pageNo+'&_='+data.deleteid)
         }
     })
 }

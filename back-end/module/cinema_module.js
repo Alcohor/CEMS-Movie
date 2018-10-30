@@ -27,8 +27,8 @@ const listall = (query) => {
 };
 
 //返回影院的列表
-const list = async ( { pageNo = 1 , pageSize = 10} ) => {
-  let _query = {}; ////查询的约定条件
+const list = async ( { pageNo = 1 , pageSize = 10,search = ''} ) => {
+  let _query = {name : search} || {}; ////查询的约定条件
 
   let _all_items = await listall(_query)
   return Cinema.find(_query)
