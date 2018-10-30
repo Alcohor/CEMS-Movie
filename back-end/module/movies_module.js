@@ -60,11 +60,12 @@ const list = async({pageNo = 1,pageSize = 10, search =''})=>{
 
 
 let default_pic = '/uploads/posterPic/defaultPic.jpg'
-const _save = (data) => {//增加电影数据
+const _save = (body) => {//增加电影数据
     let _timestamp = Date.now()
     let moment = Moment(_timestamp)
+    body.posterPic =  body.posterPic || default_pic
     return new Movies({
-        ...data,
+        ...body,
         createTime: _timestamp,
         createTimeFormat: moment.format("YYYY-MM-DD, hh:mm")
     }).save()
@@ -128,7 +129,7 @@ const updataMovie = async(body)=>{
         body.createTimeFormat = moment.format("YYYY-MM-DD, hh:mm")
         
     }
-    body.posterPic =  body.posterPic || default_pic
+    body.posterPic = body.posterPic|| _row.posterPic || default_pic
     return Movies.updateOne({ _id: body._id }, { ...body }).then((results) => {
         return results
     }).catch((err) => {
