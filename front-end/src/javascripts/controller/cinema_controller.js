@@ -13,9 +13,9 @@ const cinema = async (req,res,next) =>{
     req.query = req.query || {} //防止没有参数的时候，req.query为null
 
     let _page = {
-        pageNo: req.query.pageNo,
-        pageSize: req.query.pageSize,
-        search: req.query.search
+        pageNo: req.query.pageNo || 1,
+        pageSize: req.query.pageSize || 10,
+        search: req.query.search//查询 时候传回的数据
     }
 
     let html = template.render(cinemaList_template,{//将数据渲染进模板
@@ -23,6 +23,7 @@ const cinema = async (req,res,next) =>{
     })
     res.render(html);
     addClickEvent(_page);//添加点击事件
+    $('.cinema-list #keywords').val(_page.search)
 }
 
 //影院添加
@@ -62,23 +63,34 @@ const addClickEvent = (_page) =>{
         bus.emit('go','/cinema-update' , { id } );//路由隐式传参
     })
 
+    //查询搜索事件
+    $('.cinema-list #possearch').on('click',function(){
+        let _search = $('.cinema-list #keywords').val()
+        let _params = {
+            search: _search,
+            pageNo: 1,
+
+        }
+        bus.emit('go',`/cinema-list?${$.param(_params)}`)
+    })
+
 }
 //删除影院列表事件
 const removeCinemaListEvent = async function (_page) {
     //删除影院信息
     let id = $(this).parents('tr').data('id')
-    let _data = await cinema_model.remove({ id : id })
+    let _data = await cinema_model.remove({ id : id ,..._page})
      // 删除的时候此页还有多少条数据
-    let trs = $('.cinema-list__tabel tr[data-id]')//判断页面是否还有列表数据
+    //let trs = $('.cinema-list__tabel tr[data-id]')//判断页面是否还有列表数据
     //判断页数，如果trs的长度大于1，说明还有信息，否则页数往前跳
-    let _pageNo = trs.length > 1 ? _page.pageNo : _page.pageNo-1;
+    //let _pageNo = trs.length > 1 ? _page.pageNo : (_page.pageNo - (_page.pageNo > 1 ? 1 : 0));
     handleToastByData(_data,{
         isReact: false,
         success: (data) => {
+            let _pageNo = _page.pageNo 
+            _pageNo -= data.isBack ? 1 : 0
             // 删除成功
-            console.log(data)
-            
-            bus.emit('go', '/cinema-list?pageNo='+_pageNo+'&_='+data.deleteid)
+            bus.emit('go', '/cinema-list?pageNo='+_pageNo+'&_='+data.deleteid + '&search='+_page.search)
         }
     })
 }
