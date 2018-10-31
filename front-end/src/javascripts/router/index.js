@@ -9,12 +9,23 @@ import {bus} from '../util'
 //controller控制器
 import cinema_controller from '../controller/cinema_controller';
 
+
+import page_header_controller from '../controller/page_header_controller'
+
+import page_header_model from '../model/page_head_model'
+
+import map_controller from '../controller/map'
+
 var router = null;
+//记录上一次路由
+var preUrl=''
 
 //启动路由
 const _init = () =>{    
 
     router = new SMERouter('router-view')
+
+    router.route('/',renderhander)
 
     // 中间件会先执行
     router.use((req, res, next) => {
@@ -30,6 +41,8 @@ const _init = () =>{
     router.route('/movies-list',movies_info_controller.list)
     router.route('/movies-add',movies_info_controller.showAddMovie)
     router.route('/movies-update',movies_info_controller.update)
+    router.route('/map',map_controller.map)
+
     router.route('/notFound',(req,res,next) =>{
         res.render(notFound_template)
         _navLink('.not-found a[to]')
@@ -43,8 +56,6 @@ const _init = () =>{
     //          res.redirect('/notFound')
     //     }
     // })
-
-
 
 
     _navLink();
@@ -72,7 +83,11 @@ const _navLink = () =>{
 
 bus.on('go', (path, body = {}) =>  router.go(path, body) )
 
-
+//渲染头部
+const renderhander=(req,res,next) =>{
+    page_header_controller.render(page_header_model.pageHead(req.url,preUrl))
+    preUrl=req.url
+}
 
 
 export default {

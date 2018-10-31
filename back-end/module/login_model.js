@@ -4,39 +4,64 @@ const { hash } =require ('../utils')
 const Moment = require("moment")
 const bcrypt = require('../utils')
 
-var User = mongoose.model("users", new mongoose.Schema({
+var User = mongoose.model('users', new mongoose.Schema({
     username:String,
     password:String,
-    tel : Number,
+    tel : String,
     registerTime:String
-}))
+})
+);
 
-const register = ({ username,password,tel}) =>{
-    // let _password = await hash(password)
+// const register = async({ username,password,tel}) =>{
+//     let _password = await hash(password)
 
 
-    //生成salt的迭代次数 
-    const saltRounds = 10; //随机生成salt
-    const salt = bcrypt.genSaltSync(saltRounds);
-     //获取hash值 
-     var hash = bcrypt.hashSync(password, salt); 
-     //把hash值赋值给password变量 
-     var _password = hash;
+//     // //生成salt的迭代次数 
+//     // const saltRounds = 10; //随机生成salt
+//     // const salt = bcrypt.genSaltSync(saltRounds);
+//     //  //获取hash值 
+//     //  var hash = bcrypt.hashSync(password, salt); 
+//     //  //把hash值赋值给password变量 
+//     //  var _password = hash;
+//     return new User({
+//         username,
+//         password:_password,
+//         tel,
+//         registerTime:Date.now()
+//     })
+//     .save()
+//     .then((results) => {
+//         let { _id , username,tel} = results
+//         return { _id , username,tel}
+//     })
+//     .catch(() => {
+//         return false
+//     })
 
-    return new User({
+
+// }
+
+
+// 注册，存入数据到数据库password
+const register = async ({ username, password, tel}) => {
+    let _password = await hash(password)
+    // 应该对密码进行加密之后再存储，可以利用node内置模块crypto，
+    return new UserModel({
         username,
-        password:_password,
         tel,
-        registerTime:Date.now()
+        password: _password,
+        signupTime: Date.now()
     })
     .save()
     .then((results) => {
-        let { _id , username,tel} = results
-        return { _id , username,tel}
+        let { _id, username, tel } = results
+        return { _id, username, tel }
     })
-
-
+    .catch(() => {
+        return false
+    })
 }
+
 //登录  判断密码是否匹配
 const login =( pwd,{password})=>{
     return bcrypt.compare(pwd, password)
