@@ -1,6 +1,8 @@
 const mongoose = require("../utils/mongoose");
 //引入处理时间戳
 const Moment = require("moment");
+const fs = require('fs-extra') // 时间格式化
+const PATH = require('path') // 时间格式化
 
 //创建model模型
 var Cinema = mongoose.model("cinemas",new mongoose.Schema({
@@ -14,8 +16,7 @@ var Cinema = mongoose.model("cinemas",new mongoose.Schema({
 );
 
 //返回影院的全部列表,用于查找
-const listall = (query) => {
-  let _query = query || {} ; ////查询的约定条件
+const listall = (_query = {}) => {  
   return Cinema.find(_query)
     .sort({ createTime: -1 }) //按时间降序排列
     .then((results) => {
@@ -27,9 +28,17 @@ const listall = (query) => {
 };
 
 //返回影院的列表
-const list = async ( { pageNo = 1 , pageSize = 10} ) => {
-  let _query = {}; ////查询的约定条件
+const list = async ( { pageNo = 1 , pageSize = 10,search = ''} ) => {
+  let reg = new RegExp(search,'g')//正则做查询判断
+  // let _query = {name : search} || {}; ////查询的约定条件
+  let _query = {//按照正则去查询数据
+    $or : [//格式这个相当于||
+      {name:reg},
+      {city:reg}
 
+    ]
+    
+  }
   let _all_items = await listall(_query)
   return Cinema.find(_query)
   //按时间降序排列
@@ -45,7 +54,8 @@ const list = async ( { pageNo = 1 , pageSize = 10} ) => {
           pageNo,
           pageSize,
           total: _all_items.length, // 总数
-          totalPage: Math.ceil(_all_items.length / pageSize) // 总页数
+          totalPage: Math.ceil(_all_items.length / pageSize), // 总页数
+          search //搜索关键字
         }
       }
     })
@@ -79,12 +89,16 @@ const save = (body) => {
 //添加影院结束
 
 //删除影院信息
-const remove = ( { id } ) => {//传入iD删除这条信息
+const remove = async ( { id , pageNo , pageSize } ) => {//传入iD删除这条信息
   //数据库操作删除，Cinema是数据库模板
    //数据库中存的是_id所以要找到_id中的id
    let _row = selectID({id})
-  return Cinema.deleteOne({ _id: id }).then( (results) => {
+  return Cinema.deleteOne({ _id: id }).then(async (results) => {
+    //  获取最新的数量
+    let _all_items = await listall()
+    
     results.deleteid = id //找到这个id
+    results.isBack = (pageNo-1) * pageSize >= _all_items.length //判断是否返回
     //判断删除的文件的图片,有图片就删除图片
     if ( _row.cinemaLogo && _row.cinemaLogo !== default_logo ) {
       fs.removeSync(PATH.resolve(__dirname, '../public'+_row.cinemaLogo))

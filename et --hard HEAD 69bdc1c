@@ -1,0 +1,34 @@
+[33m91c56ed[m HEAD@{0}: merge master: Merge made by the 'recursive' strategy.
+[33m69bdc1c[m HEAD@{1}: checkout: moving from master to qt
+[33m993091e[m HEAD@{2}: commit: '111'
+[33m01c916b[m HEAD@{3}: pull origin master: Fast-forward
+[33m136e98a[m HEAD@{4}: checkout: moving from qt to master
+[33m69bdc1c[m HEAD@{5}: commit: '查询完成2018/10/30/19/41'
+[33m9d977f0[m HEAD@{6}: merge master: Merge made by the 'recursive' strategy.
+[33m18d4c8b[m HEAD@{7}: checkout: moving from master to qt
+[33m136e98a[m HEAD@{8}: pull origin master: Fast-forward
+[33m751d2c2[m HEAD@{9}: checkout: moving from qt to master
+[33m18d4c8b[m HEAD@{10}: commit: '分页完成2018/10/30/9/07'
+[33m6d73947[m HEAD@{11}: commit: '分页部分完成2018/10/29/23/25'
+[33m5cac728[m HEAD@{12}: commit: '修改上传文件完成2018/10/29/20/45'
+[33m751d2c2[m HEAD@{13}: checkout: moving from master to qt
+[33m751d2c2[m HEAD@{14}: pull origin master: Fast-forward
+[33m271b21e[m HEAD@{15}: checkout: moving from qt to master
+[33m751d2c2[m HEAD@{16}: commit: '上传图片初步完成2018/10/29/18/51'
+[33mf89d862[m HEAD@{17}: merge master: Merge made by the 'recursive' strategy.
+[33m897592b[m HEAD@{18}: checkout: moving from master to qt
+[33m271b21e[m HEAD@{19}: pull origin master: Fast-forward
+[33m27279c4[m HEAD@{20}: checkout: moving from qt to master
+[33m897592b[m HEAD@{21}: commit: '重新发布完成2018/10/29/8/45'
+[33m1adbc08[m HEAD@{22}: commit: '修改功能完成2018/10/28/21/28'
+[33m235c43c[m HEAD@{23}: merge master: Merge made by the 'recursive' strategy.
+[33m0e1ace8[m HEAD@{24}: checkout: moving from master to qt
+[33m27279c4[m HEAD@{25}: pull origin master: Fast-forward
+[33m20844a9[m HEAD@{26}: checkout: moving from qt to master
+[33m0e1ace8[m HEAD@{27}: commit: '2018/10/28/18/43'
+[33mdc5d3b1[m HEAD@{28}: commit: '修改完成一半2018/10/28/18/33'
+[33m673edcf[m HEAD@{29}: commit: 前端删除开发完成2018/10/28/17/27
+[33m27de9a7[m HEAD@{30}: commit: 后端删除影院信息完成2018/10/28/15/51
+[33m98e26ea[m HEAD@{31}: commit: 修改代码个添加注释2018/10/28/14/32
+[33m20844a9[m HEAD@{32}: checkout: moving from master to qt
+[33m20844a9[m HEAD@{33}: clone: from git@github.com:Alcohor/CEMS-Movie.git
