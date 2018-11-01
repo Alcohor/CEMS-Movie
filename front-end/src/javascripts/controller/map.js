@@ -44,7 +44,7 @@ window.onApiLoaded = function () {
     });
     //解析定位结果
     function onComplete(data) {
-       console.log('定位结果：' + data.position);
+    //    console.log('定位结果：' + data.position);
        // 地理编码，将经纬度处理成地址
        regeoCode(data.position)
        // 移动到定位位置
@@ -75,11 +75,11 @@ window.onApiLoaded = function () {
     }
     //解析定位错误信息
     function onError(data) {
-        console.log('定位失败', data.message)
+        // console.log('定位失败', data.message)
     }
     // 获取详细地址
     function regeoCode(position) {
-        console.log('正在处理')
+        // console.log('正在处理')
         if(!geocoder){
             var geocoder = new AMap.Geocoder({
                 radius: 1000 //范围，默认：500
@@ -87,7 +87,7 @@ window.onApiLoaded = function () {
         }
         geocoder.getAddress([position.lng, position.lat], function(status, result) {
             if (status === 'complete'&&result.regeocode) {
-                console.log(result)
+                // console.log(result)
                 // var address = result.regeocode.formattedAddress;
             }else{alert(JSON.stringify(result))}
         });

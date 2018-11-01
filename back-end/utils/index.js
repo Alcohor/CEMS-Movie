@@ -20,6 +20,7 @@ const dataHandler = (data,res,template,callbacks = {})=>{
 }
 
 const response = function({template,status,data}){
+  
     this.render(template,{
         "status":status,
         "data":data

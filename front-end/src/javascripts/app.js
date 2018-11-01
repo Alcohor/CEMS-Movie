@@ -3,6 +3,7 @@ import '../stylesheets/app.scss'
 //引入路由
 import router from './router'
 
+import user_info_controller from './controller/user_info_controller'
 
 const body_template = require('./view/body.html')
 
@@ -10,4 +11,6 @@ const body_template = require('./view/body.html')
 $('#wrapper').html(body_template);
 
 router.init(); 
+
+user_info_controller.renderUser()
 

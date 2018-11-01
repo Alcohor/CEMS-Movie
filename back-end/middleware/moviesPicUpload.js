@@ -24,6 +24,7 @@ function fileFilter (req, file, cb) {
   let _flag = file.mimetype.startsWith('image')
 
   cb(_flag ? null : new Error('请上传正确格式的图片'), _flag)
+
 }
 
 
@@ -38,7 +39,7 @@ const fileUpload = function (req, res, next) {
     if (err) {
           res.set('content-type', 'application/json; charset=utf8')
       res.render('movies', {
-          code: 501,
+          status: 501,
           data: JSON.stringify({ msg: '请上传正确格式的图片' })
       })
     } else {
