@@ -23,24 +23,28 @@ const bindEvent = () =>{
         switch ( _result.status ) {
             case 500: toast('失败，服务器出了问题'); break;
             case 201:  toast('用户已存在'); break;
-            default: 
+            case 200: 
                 toast('注册成功');
-                render('signin')
+                {
+                    $("#regist_container").hide();
+                    $("#_close").show();
+                    $("#_start").animate({
+                        left: '350px',
+                        height: '520px',
+                        width: '400px'
+                    }, 500, function() {
+                        $("#login_container").show(500);
+                        $("#_close").animate({
+                            height: '40px',
+                            width: '40px'
+                        }, 500);
+                    });
+                }
+           
                 break;
         }
-        $("#regist_container").hide();
-        $("#_close").show();
-        $("#_start").animate({
-            left: '350px',
-            height: '520px',
-            width: '400px'
-        }, 500, function() {
-            $("#login_container").show(500);
-            $("#_close").animate({
-                height: '40px',
-                width: '40px'
-            }, 500);
-        });
+        //  if( _result.code == 200)
+        
 
     })
 
@@ -51,12 +55,12 @@ const login = async () =>{
        $('#login_container').on('submit',async function(e) {
         e.preventDefault()
         let _params =$(this).serialize()
-        console.log(_params)
         let _result = await admin_model.login(qs.parse(_params))
         switch ( _result.status ) {
             case 203: toast('密码错误'); break;
             case 202:  toast('用户不存在'); break;
             default: 
+                localStorage.user=qs.parse(_params).username
                 window.location.href = "/#/"; 
             break;
         }

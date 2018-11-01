@@ -1,10 +1,15 @@
 
 const mongoose = require('../utils/mongoose')
 const { hash } =require ('../utils')
+<<<<<<< HEAD
 const Moment = require("moment")
+=======
+// const Moment = require("moment")
+>>>>>>> lll
 const bcrypt = require('bcrypt')
 
 var User = mongoose.model('users', new mongoose.Schema({
+    personal_image:String,
     username:String,
     password:String,
     tel : String,

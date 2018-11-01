@@ -9,6 +9,12 @@ const pageHead = (url,preUrl) =>{
             title:'首页',
             list:[]
         },
+        '/map': {
+            title: '地图显示',
+            list: [
+                { text: '地图', path: '#/map' }
+            ]
+        },
         '/cinema-list':{
             title:'影院列表',
             description:'影院详情',
@@ -57,7 +63,7 @@ const pageHead = (url,preUrl) =>{
             ]
         }
     }
-        return _infos[_pathname] ||{}
+        return _infos[_pathname]||{}
 }
 
 export default {

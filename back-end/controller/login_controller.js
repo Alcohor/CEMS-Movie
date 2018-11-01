@@ -10,24 +10,21 @@ const register = async (req,res,next) =>{
     
     if(!_judge_result.length){
         let _data = await user_model.register(req.body)
-        
         dataHandler(_data,res,'user')
     }else{
         
         res.render('user',{
             status:201,
             data:JSON.stringify('用户名存在')
+            
         })
     }
 }
 
 const login =async( req,res, next) =>{
-
     let _judge_result = await user_model.judgeUserByusername(req.body.username)
-
     if(!!_judge_result.length){
       let _data = await user_model.login(req.body.password,_judge_result[0])
-
       if(_data) {
           //存session
           req.session.userinfo ={

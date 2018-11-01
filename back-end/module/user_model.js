@@ -13,10 +13,10 @@ const getUserInfoById = (id) =>{
     })
 }
 
-const auths =() =>{
-    return {
+// const auths =() =>{
+//     return {
         
-    }
-}
+//     }
+// }
 
 module.exports = getUserInfoById
