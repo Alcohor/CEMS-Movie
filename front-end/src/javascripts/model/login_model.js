@@ -3,7 +3,7 @@ const login = (data) =>{
         url : '/api/user/login',
         type:'post',
         data,
-        success:(result) =>{
+        success:(result) =>{ 
             return result
         }
     })

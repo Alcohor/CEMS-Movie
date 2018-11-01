@@ -23,7 +23,7 @@ var storage = multer.diskStorage({
 // 过滤文件类型
 function fileFilter (req, file, cb) {
   let _flag = file.mimetype.startsWith('image')
-
+  console.log(_flag)
   cb(_flag ? null : new Error('请上传正确格式的图片'), _flag)
 }
 
@@ -37,9 +37,10 @@ var upload = multer({ storage, fileFilter }).single('cinemaLogo') // .single处�
 const fileUpload = function (req, res, next) {
   upload(req, res, function (err) {
     if (err) {
+      console.log(err)
           res.set('content-type', 'application/json; charset=utf8')
       res.render('cinema', {
-          code: 501,
+          status: 501,
           data: JSON.stringify({ msg: '请上传正确格式的图片' })
       })
     } else {

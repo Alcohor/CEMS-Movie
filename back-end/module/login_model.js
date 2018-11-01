@@ -1,10 +1,11 @@
 
 const mongoose = require('../utils/mongoose')
 const { hash } =require ('../utils')
-const Moment = require("moment")
-const bcrypt = require('../utils')
+// const Moment = require("moment")
+const bcrypt = require('bcrypt')
 
 var User = mongoose.model('users', new mongoose.Schema({
+    personal_image:String,
     username:String,
     password:String,
     tel : String,
@@ -46,7 +47,7 @@ var User = mongoose.model('users', new mongoose.Schema({
 const register = async ({ username, password, tel}) => {
     let _password = await hash(password)
     // 应该对密码进行加密之后再存储，可以利用node内置模块crypto，
-    return new UserModel({
+    return new User({
         username,
         tel,
         password: _password,
@@ -64,7 +65,7 @@ const register = async ({ username, password, tel}) => {
 
 //登录  判断密码是否匹配
 const login =( pwd,{password})=>{
-    return bcrypt.compare(pwd, password)
+    return bcrypt.compareSync(pwd, password)
 }
 
 const judgeUserByusername = (username) =>{
