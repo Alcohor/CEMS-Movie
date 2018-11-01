@@ -13,10 +13,14 @@ const getUserInfoById = (id) =>{
     })
 }
 
-// const auths =() =>{
-//     return {
-        
-//     }
-// }
+const auths =() =>{
+    return {
+        'map':6
+      
+    }
+}
 
-module.exports = getUserInfoById
+module.exports = {
+    getUserInfoById,
+    auths
+}

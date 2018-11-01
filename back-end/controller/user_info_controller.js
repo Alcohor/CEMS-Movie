@@ -1,5 +1,21 @@
 const user_model= require('../module/login_model')
 
+
+const islogin = (req,res,next) =>{
+    if(req.session.userinfo) {
+        res.render('user',{
+            status:200,
+            data:JSON.stringify({msg: '用户登录'})
+        })
+    }else {
+        res.render('user',{
+            status:201,
+            data:JSON.stringify({msg:'用户登录'})
+        })
+    }
+}
+
+
 const getUserInfo= async function(req,res,next){                  
     let user_info=await user_model.getUserInfoById(req.session.userinfo.userid)
     if(req.session.userinfo.userid) {     
@@ -39,5 +55,6 @@ const check =function(req,res){
 module.exports={
     getUserInfo,
     exit,
-    check
+    check,
+    islogin
 }
