@@ -30,6 +30,10 @@ const exit = () =>{
     })
 }
 
+const list =() =>{
+    
+}
+
 const check = () =>{
     return $.ajax({
         url:'/api/user_info/check',

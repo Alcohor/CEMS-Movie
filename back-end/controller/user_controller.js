@@ -26,9 +26,16 @@ const islogin = (req,res,next) =>{
             })
         })
     }
-
+//列表显示
+const list = async (req,res) =>{
+    res.set('content-type','application/json; charset=utf-8')
+    let _data = await user_info_model.list(req.query)
+    console.log(req.query)
+    dataHandler(_data,res,"user")
+}
 module.exports ={
     islogin,
-    info
+    info,
+    list
 
 }

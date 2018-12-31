@@ -1,6 +1,8 @@
 const user_model= require('../module/login_model')
 
 
+const {dataHandler} =require('../utils')
+
 const islogin = (req,res,next) =>{
     if(req.session.userinfo) {
         res.render('user',{
@@ -10,10 +12,11 @@ const islogin = (req,res,next) =>{
     }else {
         res.render('user',{
             status:201,
-            data:JSON.stringify({msg:'用户登录'})
+            data:JSON.stringify({msg:'用户未登录'})
         })
     }
 }
+
 
 
 const getUserInfo= async function(req,res,next){                  
