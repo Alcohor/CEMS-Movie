@@ -1,4 +1,14 @@
 
+const islogin =() =>{
+    return $.ajax({
+        url:'/api/user_info/islogin',
+        type:'get',
+        success:(results) =>{
+            return results
+        }
+    })
+}
+
 const getUserInfo =() =>{
     return $.ajax({
         url:'/api/user_info/info',
@@ -20,6 +30,10 @@ const exit = () =>{
     })
 }
 
+const list =() =>{
+    
+}
+
 const check = () =>{
     return $.ajax({
         url:'/api/user_info/check',
@@ -34,5 +48,6 @@ const check = () =>{
 module.exports={
     getUserInfo,
     check,
-    exit
+    exit,
+    islogin
 }
